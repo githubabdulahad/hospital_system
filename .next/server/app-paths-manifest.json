@@ -1,0 +1,8 @@
+{
+  "/login/page": "app/login/page.js",
+  "/accountant/profile/page": "app/accountant/profile/page.js",
+  "/accountant/add-invoice/page": "app/accountant/add-invoice/page.js",
+  "/accountant/manage-invoice/page": "app/accountant/manage-invoice/page.js",
+  "/admin/departments/page": "app/admin/departments/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js"
+}

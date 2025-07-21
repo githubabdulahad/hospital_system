@@ -1,0 +1,91 @@
+{
+  "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
+    ],
+    "/about/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/about/page.js"
+    ],
+    "/specialties/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/specialties/page.js"
+    ],
+    "/doctors/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/doctors/page.js"
+    ],
+    "/appointment/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/appointment/page.js"
+    ],
+    "/contact/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/contact/page.js"
+    ],
+    "/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/login/page.js"
+    ],
+    "/accountant/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/accountant/layout.js"
+    ],
+    "/accountant/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/accountant/dashboard/page.js"
+    ],
+    "/accountant/payroll/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/accountant/payroll/page.js"
+    ],
+    "/accountant/profile/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/accountant/profile/page.js"
+    ],
+    "/accountant/add-invoice/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/accountant/add-invoice/page.js"
+    ],
+    "/accountant/manage-invoice/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/accountant/manage-invoice/page.js"
+    ],
+    "/admin/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/layout.js"
+    ],
+    "/admin/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/dashboard/page.js"
+    ],
+    "/admin/departments/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/departments/page.js"
+    ]
+  }
+}
