@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useContext } from "react";
 import { SearchContext } from "../../../components/Context/SearchContext";
-import { useInvoice } from "../../../components/Context/InvoiceContext";
+import { useInvoice } from "../../../components/Context/use-invoice";
 import { FaFileInvoiceDollar, FaEye, FaEdit, FaTrash, FaPlus, FaTimes, FaSearch, FaCalendarAlt, FaUser, FaDollarSign } from 'react-icons/fa';
 import Link from 'next/link';
 import StatCard from "../../../components/compafterlogin/Common/StatCard";

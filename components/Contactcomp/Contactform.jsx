@@ -4,7 +4,7 @@ import Commonbtn from "../subComponents//Commonbtn";
 
 const Contactform = () => {
   // State for form inputs (optional, but good for controlled components)
-  const [consultationType, setConsultationType] = useState("online"); // 'online' or 'in-person'
+  const [consultationType] = useState("online"); // 'online' or 'in-person'
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");

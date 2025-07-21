@@ -6,7 +6,7 @@ import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import ShowPayrollModal from "../../../components/compafterlogin/Doctor/ShowPayrollModal";
 
 const Payroll = () => {
-  const [payrollRecords, setPayrollRecords] = useState([
+  const [payrollRecords] = useState([
     {
       id: 1,
       employeeId: "EMP001",
