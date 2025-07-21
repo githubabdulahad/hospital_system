@@ -9,7 +9,7 @@ const Header = () => {
   const router = useRouter();
   const { user, logout } = useContext(UserContext);
   const { search, setSearch } = useContext(SearchContext);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isLoggingOut] = useState(false);
 
   const handleLogout = () => {
     logout();

@@ -99,7 +99,7 @@ export default function OurSpecialities() {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4 mb-4" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
-        {specialities.map((spec, idx) => (
+        {specialities.map((spec) => (
           <div
             key={spec.title}
             className={`${spec.bg} rounded-xl p-6 flex flex-col items-center shadow-md transition-transform hover:-translate-y-1`}

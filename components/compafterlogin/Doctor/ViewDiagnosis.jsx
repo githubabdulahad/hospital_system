@@ -9,8 +9,6 @@ const diagnosisColumns = [
 ];
 
 const ViewDiagnosis = ({ open, onClose, diagnosis, onSave, onDelete }) => {
-  if (!open) return null;
-
   const [form, setForm] = useState({
     date: "",
     time: "",
@@ -19,6 +17,8 @@ const ViewDiagnosis = ({ open, onClose, diagnosis, onSave, onDelete }) => {
     description: "",
   });
   const [diagnosisList, setDiagnosisList] = useState(diagnosis || []);
+
+  if (!open) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
