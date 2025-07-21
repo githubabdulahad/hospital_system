@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 "use client";
 import React, { createContext, useState } from "react";
 export const SearchContext = createContext();
