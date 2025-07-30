@@ -24,7 +24,7 @@ export default function DoctorsSection() {
   return (
     <section className="max-w-xs sm:max-w-2xl md:max-w-7xl mx-auto px-2 sm:px-6 py-6 sm:py-8 mb-10 md:mb-22 w-full" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 sm:gap-8 ">
-        <div className="max-w-xs sm:max-w-md pl-2 sm:pl-8 sm:text-center">
+        <div className="max-w-xs sm:max-w-md pl-2 sm:pl-8 text-center sm:text-left">
           <h4 className="font-semibold text-[#0B2443] mb-2 text-base sm:text-lg">Our Doctors</h4>
           <h2 className="font-normal text-xl sm:text-3xl md:text-4xl text-[#0B2443] mb-2">
             <span className="font-bold">Meet</span> Our Medical
@@ -33,10 +33,12 @@ export default function DoctorsSection() {
           <p className="text-[#0B2443] mb-4 sm:mb-8 text-sm sm:text-base">
             Our doctors, in both our Abu Dhabi and Dubai medical center, are ready to help with any issues you and your family may be experiencing. Please feel free to book an appointment to one of our doctor here.
           </p>
-          <Commonbtn bgColor='bg-[#C0E6DA]' textColor='text-[#0B2443]'>More Teams</Commonbtn>
+          <div className="flex justify-center sm:justify-start">
+            <Commonbtn bgColor='bg-[#C0E6DA]' textColor='text-[#0B2443]'>More Teams</Commonbtn>
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 flex-1 justify-center pr-0 sm:pr-4">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 flex-1 justify-center pr-0 sm:pr-4 items-center sm:items-stretch">
           {doctors.map((doc) => (
             <DoctorCard
               key={doc.name + doc.specialty}

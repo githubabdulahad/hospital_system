@@ -3,9 +3,11 @@ import React, { useContext, useState } from 'react';
 // Fix the import path - adjust based on your actual Context location
 import { SearchContext } from '../../../components/Context/SearchContext';
 // import { SearchContext } from '../../../../src/Context/SearchContext';
-import { FaEye, FaDownload, FaPrint } from 'react-icons/fa';
+import { FaEye, FaUser, FaPhone,FaPrescriptionBottle, FaClock, FaVenus, FaVenusMars } from 'react-icons/fa';
 import StatCard from '../../../components/compafterlogin/Common/StatCard';
 import PrescriptionDetail from '../../../components/compafterlogin/Patient/PrescriptionDetail';
+import GenericCard from '../../../components/compafterlogin/Common/GenericCard';
+import { FaUserDoctor } from 'react-icons/fa6';
 
 const prescriptions = [
   {
@@ -162,7 +164,7 @@ export default function PatientPrescriptions() {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -187,7 +189,7 @@ export default function PatientPrescriptions() {
       </div>
 
       {/* Prescriptions Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -243,6 +245,48 @@ export default function PatientPrescriptions() {
           </table>
         </div>
       </div>
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Accountant List</h1>
+              <div className="grid  grid-cols-2 gap-4">
+                              {filteredPrescriptions.length === 0 ? (
+                                <div className="text-center text-gray-500 py-8">
+                                  <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                  <p>No prescriptions found.</p>
+                                </div>
+                              ) : (
+                                filteredPrescriptions.map((prescription) => (
+                                  <GenericCard
+                                    key={prescription.id}
+                                    data={prescription}
+                                    hospitalFields={[
+                                   {
+                                     key: "prescriptionId",
+                                     icon: <FaPrescriptionBottle />,
+                                   },
+                                   {
+                                     key: "doctorName",
+                                     icon: <FaUserDoctor />,
+                                   },
+                                 ]}
+                                 personalFields={[
+                                { key: "patientName", icon: <FaUser /> },
+                                { key: "age", icon: <FaClock /> },
+                                { key: "sex", icon: <FaVenusMars /> },
+                                 ]}
+                                    actions={[
+                                      {
+                                        label: "View",
+                                        icon: <FaEye className="w-3 h-3" />,
+                                        color: "text-[#0B2443] ",
+                                        onClick: handleViewPrescription,
+                                      }
+                                    ]}
+                                  />
+                                ))
+                              )}
+                            </div>
+            </div>
       {/* Prescription Detail Modal */}
       {modalOpen && (
         <PrescriptionDetail selectedPrescription={selectedPrescription} handleClosePrescription={handleClosePrescription} handlePrint={handlePrint} />        

@@ -178,85 +178,90 @@ const statData = [{
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#C0E6DA]/30 via-white to-[#198172]/10 p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
+    <div className="min-h-screen bg-gradient-to-br from-[#C0E6DA]/30 via-white to-[#198172]/10 p-3 md:p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center">
-          <span className="text-2xl mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-[#198172]">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0 mb-6 md:mb-8">
+        <div className="flex flex-row items-center">
+          <span className="text-xl md:text-2xl mr-2 md:mr-3 ">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 md:w-8 md:h-8 text-[#198172]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m2.25-18v18m13.5-18v18m2.25-18v18M6.75 9h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.75m-.75 3h.75m-.75 3h.75m-3.75-16.5h.75m-.75 3h.75m-.75 3h.75m-3.75-7.5h.75" />
             </svg>
           </span>
           <div>
-            <h1 className="text-3xl font-bold text-[#0B2443]">Hospital Departments</h1>
-            <p className="text-gray-600 mt-1">Manage and view all medical departments</p>
+            <h1 className="text-xl md:text-3xl font-bold text-[#0B2443]">Hospital Departments</h1>
+            <p className="text-gray-600 mt-1 text-sm md:text-base">Manage and view all medical departments</p>
           </div>
         </div>
-        <CommonAddButton 
-          label="Add New Department" 
-          onClick={() => setIsAddModalOpen(true)}
-        />
+        <div className="w-full md:w-auto">
+          <CommonAddButton 
+            label="Add New Department" 
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-full md:w-auto"
+          />
+        </div>
       </div>
 
       {/* Statistics Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-5 mb-5 md:mb-6">
         {statData.map((stat, index) => (
-          <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
+          <div className="min-w-[180px] md:min-w-0" key={index}>
+            <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} />
+          </div>
         ))}
       </div>
 
       {/* Department Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
         {filteredDepartments.map((department) => (
           <div key={department.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
             {/* Department Image */}
-            <div className="relative h-48 overflow-hidden">
+            <div className="relative h-40 md:h-48 overflow-hidden">
               <img 
                 src={department.image} 
                 alt={department.name}
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
               />
-              <div className="absolute top-4 right-4">
-                <span className="bg-[#198172] text-white px-3 py-1 rounded-full text-xs font-medium">
+              <div className="absolute top-3 right-3 md:top-4 md:right-4">
+                <span className="bg-[#198172] text-white px-2 py-0.5 md:px-3 md:py-1 rounded-full text-xs font-medium">
                   {department.doctorCount} Doctors
                 </span>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                <h3 className="text-xl font-bold text-white mb-1">{department.name}</h3>
-                <p className="text-white/90 text-sm">Est. {department.established}</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 md:p-4">
+                <h3 className="text-lg md:text-xl font-bold text-white mb-1">{department.name}</h3>
+                <p className="text-white/90 text-xs md:text-sm">Est. {department.established}</p>
               </div>
             </div>
 
             {/* Department Content */}
-            <div className="p-6">
-              <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+            <div className="p-4 md:p-6">
+              <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-3">
                 {department.description}
               </p>
 
               {/* Head of Department */}
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-[#198172] to-[#0B2443] rounded-full flex items-center justify-center mr-3">
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-center mb-3 md:mb-4">
+                <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#198172] to-[#0B2443] rounded-full flex items-center justify-center mr-2 md:mr-3">
+                  <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Head of Department</p>
-                  <p className="text-sm font-semibold text-[#0B2443]">{department.headOfDepartment}</p>
+                  <p className="text-[10px] md:text-xs text-gray-500">Head of Department</p>
+                  <p className="text-xs md:text-sm font-semibold text-[#0B2443]">{department.headOfDepartment}</p>
                 </div>
               </div>
 
               {/* Key Facilities */}
-              <div className="mb-4">
-                <p className="text-xs text-gray-500 mb-2">Key Facilities</p>
+              <div className="mb-3 md:mb-4">
+                <p className="text-[10px] md:text-xs text-gray-500 mb-1 md:mb-2">Key Facilities</p>
                 <div className="flex flex-wrap gap-1">
                   {department.facilities.slice(0, 3).map((facility, index) => (
-                    <span key={index} className="bg-[#C0E6DA]/30 text-[#198172] px-2 py-1 rounded-md text-xs font-medium">
+                    <span key={index} className="bg-[#C0E6DA]/30 text-[#198172] px-2 py-0.5 md:py-1 rounded-md text-[10px] md:text-xs font-medium">
                       {facility}
                     </span>
                   ))}
                   {department.facilities.length > 3 && (
-                    <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-md text-xs font-medium">
+                    <span className="bg-gray-100 text-gray-600 px-2 py-0.5 md:py-1 rounded-md text-[10px] md:text-xs font-medium">
                       +{department.facilities.length - 3} more
                     </span>
                   )}
@@ -264,8 +269,8 @@ const statData = [{
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <button className="flex items-center space-x-1 text-[#198172] hover:text-[#0B2443] transition-colors text-sm font-medium">
+              <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-gray-100">
+                <button className="flex items-center space-x-1 text-[#198172] hover:text-[#0B2443] transition-colors text-xs md:text-sm font-medium">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -273,9 +278,9 @@ const statData = [{
                   <span>View Details</span>
                 </button>
                 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 md:space-x-2">
                   <button 
-                    className="p-2 text-[#198172] hover:bg-[#C0E6DA]/20 rounded-lg transition-colors" 
+                    className="p-1.5 md:p-2 text-[#198172] hover:bg-[#C0E6DA]/20 rounded-lg transition-colors" 
                     title="Edit Department"
                     onClick={() => openEditModal(department)}
                   >
@@ -285,7 +290,7 @@ const statData = [{
                   </button>
                   
                   <button 
-                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" 
+                    className="p-1.5 md:p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" 
                     title="Delete Department"
                     onClick={() => openDeleteModal(department)}
                   >
@@ -303,11 +308,11 @@ const statData = [{
       {/* No Results Message */}
       {filteredDepartments.length === 0 && (
         <div className="text-center py-12">
-          <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-12 h-12 md:w-16 md:h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
-          <h3 className="text-lg font-semibold text-gray-500 mb-2">No departments found</h3>
-          <p className="text-gray-400">Try adjusting your search criteria</p>
+          <h3 className="text-base md:text-lg font-semibold text-gray-500 mb-2">No departments found</h3>
+          <p className="text-gray-400 text-sm md:text-base">Try adjusting your search criteria</p>
         </div>
       )}
       {/* Add Department Modal */}

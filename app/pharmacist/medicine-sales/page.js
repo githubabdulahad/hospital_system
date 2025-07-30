@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useContext } from 'react'
 import { SearchContext } from '../../../components/Context/SearchContext'
-import { FaDollarSign, FaPlus, FaEdit, FaTrash, FaTimes, FaSave, FaChartLine, FaPills, FaUsers, FaCalendar } from 'react-icons/fa'
+import { FaDollarSign, FaPlus, FaEdit, FaTrash, FaTimes, FaSave, FaChartLine, FaPills, FaUsers, FaCalendar, FaUser } from 'react-icons/fa'
 import StatCard from '../../../components/compafterlogin/Common/StatCard';
 import AddMedicineSaleModal from '../../../components/compafterlogin/Pharmacist/AddMedicineSaleModal';
 import EditMedicineSaleModal from '../../../components/compafterlogin/Pharmacist/EditMedicineSaleModal';
 import DeleteMedicineSaleModal from '../../../components/compafterlogin/Pharmacist/DeleteMedicineSaleModal';
+import GenericCard from '../../../components/compafterlogin/Common/GenericCard';
 
 const salesData = [
   {
@@ -196,12 +197,12 @@ export default function PharmaMedSales() {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 flex-wrap ">
         <div className="flex items-center">
           <FaChartLine className="w-7 h-7 text-blue-500 mr-3" />
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Medicine Sales</h1>
-            <p className="text-gray-600 mt-1">Track and manage medicine sales transactions</p>
+            <p className="text-gray-600 mt-1 block md:inline">Track and manage medicine sales transactions</p>
           </div>
         </div>
         <button
@@ -214,14 +215,14 @@ export default function PharmaMedSales() {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
        {statData.map((stat, index) => (
           <StatCard key={index} icon={stat.icon} stat={stat.stat} label={stat.label} />
         ))}
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="hidden md:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="py-6 px-4">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -319,6 +320,58 @@ export default function PharmaMedSales() {
           </div>
         </div>
       </div>
+
+       <div className="block md:hidden">
+                          <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                            Medicine Sales
+                          </h1>
+                          <div className="grid md:hidden grid-cols-2 gap-4">
+                            {filteredSales.length === 0 ? (
+                              <div className="text-center text-gray-500 py-8">
+                                <FaUserMd className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                <p>No sales found.</p>
+                              </div>
+                            ) : (
+                              filteredSales.map((sale) => (
+                                <GenericCard
+                                  key={sale.id}
+                                  data={sale}
+                                  hospitalFields={[
+                                    {
+                                      key: "medicine",
+                                      icon: <FaPills />,
+                                    },
+                                    {
+                                      key: "patient",
+                                      icon: <FaUser />,
+                                    }
+                                  ]}
+                                  personalFields={[
+                                    { key: "totalPrice", icon: <FaDollarSign /> },
+                                    {
+                                      key: "date",
+                                      icon:<FaCalendar />
+                                    }
+                                  ]}
+                                  actions={[
+                                    {
+                                      label: "Edit",
+                                      icon: <FaEdit className="w-3 h-3" />,
+                                      color: "text-[#0B2443]",
+                                      onClick: handleEdit,
+                                    },
+                                    {
+                                      label: "Delete",
+                                      icon: <FaTrash className="w-3 h-3" />,
+                                      color: "text-red-600",
+                                      onClick: handleDelete,
+                                    },
+                                  ]}
+                                />
+                              ))
+                            )}
+                          </div>
+                        </div>
 
       {/* Modals */}
       {showAddModal && (<AddMedicineSaleModal

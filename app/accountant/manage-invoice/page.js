@@ -2,12 +2,14 @@
 import React, { useState, useContext } from "react";
 import { SearchContext } from "../../../components/Context/SearchContext";
 import { useInvoice } from "../../../components/Context/use-invoice";
-import { FaFileInvoiceDollar, FaEye, FaEdit, FaTrash, FaPlus, FaTimes, FaSearch, FaCalendarAlt, FaUser, FaDollarSign } from 'react-icons/fa';
+import { FaFileInvoiceDollar, FaEye, FaEdit, FaTrash, FaPlus, FaTimes, FaSearch, FaCalendarAlt, FaUser, FaDollarSign, FaUserMd, FaUserGraduate, FaClock, FaBuilding } from 'react-icons/fa';
 import Link from 'next/link';
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import ViewInvoiceModal from "../../../components/compafterlogin/Accountant/ViewInvoiceModal";
 import EditInvoiceModal from "../../../components/compafterlogin/Accountant/EditInvoiceModal";
 import DeleteInvoiceModal from "../../../components/compafterlogin/Accountant/DeleteInvoiceModal";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaPenClip } from "react-icons/fa6";
 
 export default function AccManageInvoice() {
   const { search } = useContext(SearchContext);
@@ -111,32 +113,50 @@ export default function AccManageInvoice() {
   return (
     <div className="p-4" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
-          <FaFileInvoiceDollar className="w-7 h-7 text-[#0B2443] mr-3" />
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">Invoice Management</h1>
-            <p className="text-gray-600 mt-1">Manage and track all patient invoices</p>
+      <div className="mb-6">
+        {/* Desktop */}
+        <div className="hidden md:flex justify-between items-center">
+          <div className="flex items-center">
+            <FaFileInvoiceDollar className="w-7 h-7 text-[#0B2443] mr-3" />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">Invoice Management</h1>
+              <p className="text-gray-600 mt-1">Manage and track all patient invoices</p>
+            </div>
           </div>
+          <Link
+            href="/accountant/add-invoice"
+            className="bg-[#0B2443] hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
+          >
+            <FaPlus className="w-4 h-4" />
+            Add Invoice
+          </Link>
         </div>
-        <Link
-          href="/accountant/add-invoice"
-          className="bg-[#0B2443] hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
-        >
-          <FaPlus className="w-4 h-4" />
-          Add Invoice
-        </Link>
+        {/* Mobile */}
+        <div className="flex flex-col md:hidden items-center">
+          <div className="flex items-center mb-1">
+            <FaFileInvoiceDollar className="w-7 h-7 text-[#0B2443] mr-3" />
+            <h1 className="text-2xl font-bold text-gray-800">Invoice Management</h1>
+          </div>
+          <p className="text-gray-600 mb-2 text-center ml-6">Manage and track all patient invoices</p>
+          <Link
+            href="/accountant/add-invoice"
+            className="bg-[#0B2443] hover:bg-blue-900 text-white w-1/2 md:w-auto px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors shadow-lg"
+          >
+            <FaPlus className="w-4 h-4" />
+            Add Invoice
+          </Link>
+        </div>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
       </div>
 
       {/* Invoices Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="hidden md:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="py-6 px-4">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -223,6 +243,65 @@ export default function AccManageInvoice() {
           </div>
         </div>
       </div>
+
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                      Payrolls
+                    </h1>
+                    <div className="grid md:hidden grid-cols-2 gap-4">
+                      {filteredInvoices.length === 0 ? (
+                        <div className="text-center text-gray-500 py-8">
+                          <FaUserMd className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                          <p>No payrolls found.</p>
+                        </div>
+                      ) : (
+                        filteredInvoices.map((invoice) => (
+                          <GenericCard
+                            key={invoice.id}
+                            data={invoice}
+                            hospitalFields={[
+                              {
+                                key: "number",
+                                icon: <FaPenClip />,
+                              },
+                              {
+                                key: "title",
+                                icon: <FaBuilding />,
+                              },
+                              {
+                                key: "patient",
+                                icon: <FaUser />
+                              }
+                            ]}
+                            personalFields={[
+                              { key: "status", icon: <FaClock /> },
+                              { key: "dueDate", icon: <FaCalendarAlt /> }
+                            ]}
+                            actions={[
+                              {
+                                label: "View",
+                                icon: <FaEye className="w-3 h-3" />,
+                                color: "text-blue-600",
+                                onClick: handleView,
+                              },
+                              {
+                                label: "Edit",
+                                icon: <FaEdit className="w-3 h-3" />,
+                                color: "text-[#0B2443]",
+                                onClick: handleEdit,
+                              },
+                              {
+                                label: "Delete",
+                                icon: <FaTrash className="w-3 h-3" />,
+                                color: "text-red-600",
+                                onClick: handleDelete,
+                              },
+                            ]}
+                          />
+                        ))
+                      )}
+                    </div>
+                  </div>
 
       {/* View Invoice Modal */}
       {showViewModal && (

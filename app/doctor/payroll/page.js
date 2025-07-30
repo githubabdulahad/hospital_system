@@ -4,6 +4,8 @@ import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import ShowPayrollModal from "../../../components/compafterlogin/Doctor/ShowPayrollModal";
+import { FaCalendarAlt, FaCheck, FaClipboard, FaDollarSign, FaEye, FaUser } from "react-icons/fa";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
 
 const Payroll = () => {
   const [payrollRecords] = useState([
@@ -188,7 +190,7 @@ const Payroll = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -211,7 +213,7 @@ const Payroll = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className="hidden md:block"><CommonTable
         columns={[
           { label: "Pay Period", key: "payPeriod" },
           { label: "Basic Salary", key: "basicSalary", render: (record) => `$${record.basicSalary.toLocaleString()}` },
@@ -246,7 +248,52 @@ const Payroll = () => {
             title: "View Payroll Details"
           },
         ]}
-      />
+      /></div>
+
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Payroll </h1>
+                    <div className="grid  grid-cols-2 gap-4">
+                                    {filteredRecords.length === 0 ? (
+                                      <div className="text-center text-gray-500 py-8">
+                                        <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                        <p>No record found.</p>
+                                      </div>
+                                    ) : (
+                                      filteredRecords.map((record) => (
+                                        <GenericCard
+                                          key={record.id}
+                                          data={record}
+                                          hospitalFields={[
+                                         {
+                                           key: "payPeriod",
+                                           icon: <FaCalendarAlt />,
+                                         },
+                                         {
+                                           key: "netSalary",
+                                           icon: <FaDollarSign />,
+                                         },
+                                          
+                                       ]}
+                                       personalFields={[
+                                         { key: "payDate", icon: <FaCalendarAlt /> },
+                                         {
+                                            key: 'status',
+                                            icon: <FaCheck />,
+                                          },
+                                      ]}
+                                          actions={[
+                                            {
+                                              label: "View",
+                                              icon: <FaEye className="w-4 h-4" />,
+                                              color: "text-[#0B2443] ",
+                                              onClick: handleViewPayroll,
+                                            },
+                                          ]}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                  </div>
 
       {/* Payroll Detail Modal */}
       {showPayrollModal && (

@@ -1,9 +1,11 @@
 "use client";
 import React, { useContext, useState } from 'react';
 import { SearchContext } from '../../../components/Context/SearchContext';
-import { FaEye, FaDownload, FaPrint, FaFileMedical, FaHeartbeat, FaSkull } from 'react-icons/fa';
+import { FaEye, FaDownload, FaPrint, FaFileMedical, FaHeartbeat, FaSkull, FaIdCard, FaCalendarAlt, FaBed, FaBuilding, FaVenusMars, FaClipboard } from 'react-icons/fa';
 import StatCard from '../../../components/compafterlogin/Common/StatCard';
 import ReportDetailsModal from '../../../components/compafterlogin/Patient/ReportDetailsModal';
+import GenericCard from '../../../components/compafterlogin/Common/GenericCard';
+import { FaPenClip, FaUserDoctor } from 'react-icons/fa6';
 
 const operationHistoryData = [
   {
@@ -276,23 +278,23 @@ export default function PatientOperationHistory() {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex items-center mb-6">
-        <span className="text-2xl mr-2">
+      <div className="flex items-center mb-6 flex-wrap">
+  <span className="text-2xl mr-2">
           <FaFileMedical className="w-7 h-7 text-[#0B2443]" />
         </span>
         <h1 className="text-2xl font-bold text-gray-800">Medical Reports History</h1>
-        <span className="ml-3 text-sm text-gray-600">Your medical reports and history</span>
+        <span className="text-sm text-gray-600 block md:inline md:ml-3 ">Your medical reports and history</span>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
         ))}
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
         <div className="flex border-b border-gray-200">
           {['Operation', 'Birth', 'Death'].map((tab) => (
             <button
@@ -391,6 +393,59 @@ export default function PatientOperationHistory() {
           </div>
         </div>
       </div>
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Operation History</h1>
+              <div className="grid  grid-cols-2 gap-4">
+                              {operationHistoryData.length === 0 ? (
+                                <div className="text-center text-gray-500 py-8">
+                                  <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                  <p>No record found.</p>
+                                </div>
+                              ) : (
+                                operationHistoryData.map((report) => (
+                                  <GenericCard
+                                    key={report.id}
+                                    data={report}
+                                    hospitalFields={[
+                                   {
+                                     key: "description",
+                                     icon: <FaClipboard />,
+                                   },
+                                   {
+                                     key: "doctor",
+                                     icon: <FaUserDoctor />,
+                                   },
+                                   
+                                   {
+                                     key: "department",
+                                     icon: <FaBuilding />,
+                                   },
+                                 ]}
+                                 personalFields={[
+                                   { key: "reportId", icon: <FaPenClip /> },
+                                   { key: "date", icon: <FaCalendarAlt /> },
+                                ]}
+                                    actions={[
+                                      {
+                                        label: "View",
+                                        icon: <FaEye className="w-3 h-3" />,
+                                        color: "text-[#0B2443] ",
+                                        onClick: handleViewReport,
+                                      },
+                                      {
+                                        label: "Download",
+                                        icon: <FaDownload className="w-3 h-3" />,
+                                        color: "text-gray-800",
+                                        onClick: handleDownloadPDFReport,
+                                      }
+                                    ]}
+                                  />
+                                ))
+                              )}
+                            </div>
+            </div>
+
       {/* Report Details Modal */}
       {showModal && (
         <ReportDetailsModal getStatusBadge={getStatusBadge} selectedReport={selectedReport} handleCloseModal={handleCloseModal} activeTab={activeTab} />

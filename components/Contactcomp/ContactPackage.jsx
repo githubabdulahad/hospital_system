@@ -2,7 +2,7 @@ import PackageBanner from "../subComponents/Packagessubcomp";
 
 const ContactPackage = () => {
   return (
-    <div className="mt-36 mb-24">
+    <div className="mt-36 mb-14 sm:mb-24">
     <PackageBanner
       imageSrc="/images/contactimg/iconcube.png"
       italicText="Latest"

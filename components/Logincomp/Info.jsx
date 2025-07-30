@@ -2,8 +2,9 @@ import Coloredline from '../subComponents/ColoredLine'
 
 const Info = () => {
   return (
-    <div>
+    <div >
       <Coloredline/>
+      <div className="hidden sm:block">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center text-gray-400 text-xs md:text-sm px-2 py-1">
         {/* Info Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center flex-wrap gap-y-1 w-full md:w-auto">
@@ -147,6 +148,7 @@ const Info = () => {
             </svg>
           </a>
         </div>
+      </div>
       </div>
     </div>
   )

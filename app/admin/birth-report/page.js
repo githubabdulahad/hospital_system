@@ -4,6 +4,9 @@ import { SearchContext } from "../../../components/Context/SearchContext";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaBabyCarriage, FaBed, FaCalendarAlt, FaClock, FaDownload, FaPrint, FaVenusMars } from "react-icons/fa";
+import { FaUser, FaUserDoctor } from "react-icons/fa6";
 
 const BirthReport = () => {
   const { search } = useContext(SearchContext);
@@ -136,21 +139,27 @@ const BirthReport = () => {
     },
   ]);
 
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
   const [filterGender, setFilterGender] = useState("All");
   const [filterDeliveryType, setFilterDeliveryType] = useState("All");
 
   const filteredBirths = births.filter((birth) => {
-    const matchesSearch = 
+    const matchesSearch =
       birth.babyName.toLowerCase().includes(search.toLowerCase()) ||
       birth.motherName.toLowerCase().includes(search.toLowerCase()) ||
       birth.fatherName.toLowerCase().includes(search.toLowerCase()) ||
       birth.birthId.toLowerCase().includes(search.toLowerCase()) ||
       birth.attendingDoctor.toLowerCase().includes(search.toLowerCase());
-    
-    const matchesGender = filterGender === "All" || birth.gender === filterGender;
-    const matchesDeliveryType = filterDeliveryType === "All" || birth.deliveryType === filterDeliveryType;
-    
+
+    const matchesGender =
+      filterGender === "All" || birth.gender === filterGender;
+    const matchesDeliveryType =
+      filterDeliveryType === "All" || birth.deliveryType === filterDeliveryType;
+
     return matchesSearch && matchesGender && matchesDeliveryType;
   });
 
@@ -167,9 +176,13 @@ const BirthReport = () => {
       Female: "bg-pink-100 text-pink-800",
       Male: "bg-blue-100 text-blue-800",
     };
-    
+
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${genderStyles[gender] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          genderStyles[gender] || "bg-gray-100 text-gray-800"
+        }`}
+      >
         {gender}
       </span>
     );
@@ -181,9 +194,13 @@ const BirthReport = () => {
       "C-Section": "bg-orange-100 text-orange-800",
       Assisted: "bg-yellow-100 text-yellow-800",
     };
-    
+
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${typeStyles[type] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          typeStyles[type] || "bg-gray-100 text-gray-800"
+        }`}
+      >
         {type}
       </span>
     );
@@ -191,15 +208,19 @@ const BirthReport = () => {
 
   const getCertificateStatus = (issued) => {
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${issued ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-        {issued ? 'Issued' : 'Pending'}
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          issued ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+        }`}
+      >
+        {issued ? "Issued" : "Pending"}
       </span>
     );
   };
 
   // Print functionality
   const handlePrintReport = (birth) => {
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
@@ -341,7 +362,9 @@ const BirthReport = () => {
                   </div>
                   <div class="info-item">
                     <span class="info-label">Certificate Status:</span>
-                    <span class="info-value">${birth.birthCertificateIssued ? 'Issued' : 'Pending'}</span>
+                    <span class="info-value">${
+                      birth.birthCertificateIssued ? "Issued" : "Pending"
+                    }</span>
                   </div>
                 </div>
               </div>
@@ -399,36 +422,102 @@ const BirthReport = () => {
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
-    showToast(`Birth report for ${birth.birthId} printed successfully`, "success");
+    showToast(
+      `Birth report for ${birth.birthId} printed successfully`,
+      "success"
+    );
   };
 
   // Statistics
   const totalBirths = births.length;
-  const maleCount = births.filter(b => b.gender === "Male").length;
-  const femaleCount = births.filter(b => b.gender === "Female").length;
-  const certificatesIssued = births.filter(b => b.birthCertificateIssued).length;
+  const maleCount = births.filter((b) => b.gender === "Male").length;
+  const femaleCount = births.filter((b) => b.gender === "Female").length;
+  const certificatesIssued = births.filter(
+    (b) => b.birthCertificateIssued
+  ).length;
 
-  const statData = [{
-    icon: (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-green-600"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>),
-    stat: totalBirths,
-    label: "Total Births"
-  },
+  const statData = [
     {
-      icon: (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-blue-600"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>),
-      stat: maleCount,
-      label:"Male Babies"
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-green-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+          />
+        </svg>
+      ),
+      stat: totalBirths,
+      label: "Total Births",
     },
     {
-      icon: (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-pink-600"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>),
-      stat: femaleCount,
-      label:"Female Babies"
-      },
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-blue-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+      ),
+      stat: maleCount,
+      label: "Male Babies",
+    },
     {
-      icon: (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-purple-600"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-pink-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+      ),
+      stat: femaleCount,
+      label: "Female Babies",
+    },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-purple-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+          />
+        </svg>
+      ),
       stat: certificatesIssued,
-      label: "Certificates Issued"
-    }
-]
+      label: "Certificates Issued",
+    },
+  ];
 
   return (
     <div
@@ -459,16 +548,23 @@ const BirthReport = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
-                  <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
-                ))}
+          <StatCard
+            icon={stat.icon}
+            stat={stat.stat}
+            label={stat.label}
+            key={index}
+          />
+        ))}
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Gender
+          </label>
           <select
             value={filterGender}
             onChange={(e) => setFilterGender(e.target.value)}
@@ -481,7 +577,9 @@ const BirthReport = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Type</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Delivery Type
+          </label>
           <select
             value={filterDeliveryType}
             onChange={(e) => setFilterDeliveryType(e.target.value)}
@@ -495,51 +593,97 @@ const BirthReport = () => {
         </div>
       </div>
 
-      <CommonTable
-        columns={[
-          { label: "Birth ID", key: "birthId" },
-          { label: "Baby Name", key: "babyName" },
-          { label: "Mother", key: "motherName" },
-          { label: "Date of Birth", key: "dateOfBirth" },
-          { label: "Time", key: "timeOfBirth" },
-          { label: "Weight", key: "weight" },
-          { 
-            label: "Gender", 
-            key: "gender", 
-            render: (birth) => getGenderBadge(birth.gender)
-          },
-          { 
-            label: "Delivery Type", 
-            key: "deliveryType", 
-            render: (birth) => getDeliveryTypeBadge(birth.deliveryType)
-          },
-          { label: "Doctor", key: "attendingDoctor" },
-          { 
-            label: "Certificate", 
-            key: "birthCertificateIssued", 
-            render: (birth) => getCertificateStatus(birth.birthCertificateIssued)
-          },
-        ]}
-        data={filteredBirths}
-        actions={[
-          {
-            label: (
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-              </svg>
-            ),
-            onClick: (birth) => handlePrintReport(birth),
-            className: "bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
-            title: "Print Report"
-          },
-        ]}
-      />
+      <div className="hidden md:block">
+        <CommonTable
+          columns={[
+            { label: "Birth ID", key: "birthId" },
+            { label: "Baby Name", key: "babyName" },
+            { label: "Mother", key: "motherName" },
+            { label: "Date of Birth", key: "dateOfBirth" },
+            { label: "Time", key: "timeOfBirth" },
+            { label: "Weight", key: "weight" },
+            {
+              label: "Gender",
+              key: "gender",
+              render: (birth) => getGenderBadge(birth.gender),
+            },
+            {
+              label: "Delivery Type",
+              key: "deliveryType",
+              render: (birth) => getDeliveryTypeBadge(birth.deliveryType),
+            },
+            { label: "Doctor", key: "attendingDoctor" },
+            {
+              label: "Certificate",
+              key: "birthCertificateIssued",
+              render: (birth) =>
+                getCertificateStatus(birth.birthCertificateIssued),
+            },
+          ]}
+          data={filteredBirths}
+          actions={[
+            {
+              label: (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+              ),
+              onClick: (birth) => handlePrintReport(birth),
+              className:
+                "bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
+              title: "Print Report",
+            },
+          ]}
+        />
+      </div>
+
+      <div className="block md:hidden">
+        <h1 classN ame="text-2xl font-bold text-center text-[#0b2443] mb-2">
+          Birth Report Record List
+        </h1>
+        <div className="grid  grid-cols-2 gap-4">
+          {filteredBirths.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">
+              <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+              <p>No Reports found.</p>
+            </div>
+          ) : (
+            filteredBirths.map((birth) => (
+              <GenericCard
+                key={birth.id}
+                data={birth}
+                hospitalFields={[
+                  { key: "attendingDoctor", icon: <FaUserDoctor /> },
+                  { key: "dateOfBirth", icon: <FaCalendarAlt /> },
+                  { key: "timeOfBirth", icon: <FaClock /> },
+                  { key: "deliveryType", icon: <FaBed /> },
+                ]}
+                personalFields={[
+                  { key: "babyName", icon: <FaBabyCarriage /> },
+                  { key: "motherName", icon: <FaUser /> },
+                  { key: "fatherName", icon: <FaUser /> },
+                  { key: "gender", icon: <FaVenusMars /> },
+                ]}
+                actions={[
+                  {
+                    label: "Print Report",
+                    icon: <FaDownload className="w-3 h-3" />,
+                    color: "text-[#0b2443]",
+                    onClick: () => handlePrintReport(birth),
+                  },
+                ]}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
       <Toast
         message={toast.message}
         isVisible={toast.show}

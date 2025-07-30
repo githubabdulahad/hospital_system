@@ -6,6 +6,9 @@ import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import AddEditRequestModal from "../../../components/compafterlogin/Doctor/Add&EditRequestModal";
 import DeleteRequestModal from "../../../components/compafterlogin/Doctor/DeleteRequestModal";
+import { FaCheck, FaCheckCircle, FaClock, FaEdit, FaPhone, FaTrash, FaUser } from "react-icons/fa";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaPenClip } from "react-icons/fa6";
 
 
 const RequestedAppointments = () => {
@@ -363,7 +366,7 @@ const RequestedAppointments = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard
             key={index}
@@ -416,7 +419,8 @@ const RequestedAppointments = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Request ID", key: "requestId" },
           { label: "Patient", key: "patientName" },
@@ -481,6 +485,64 @@ const RequestedAppointments = () => {
           },
         ]}
       />
+      </div>
+
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Requested Appointments</h1>
+                    <div className="grid  grid-cols-2 gap-4">
+                                    {filteredRequests.length === 0 ? (
+                                      <div className="text-center text-gray-500 py-8">
+                                        <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                        <p>No record found.</p>
+                                      </div>
+                                    ) : (
+                                      filteredRequests.map((request) => (
+                                        <GenericCard
+                                          key={request.id}
+                                          data={request}
+                                          hospitalFields={[
+                                         {
+                                           key: "requestId",
+                                           icon: <FaPenClip />,
+                                         },
+                                         {
+                                           key: "patientName",
+                                           icon: <FaUser />,
+                                         },
+                                          {
+                                            key: 'status',
+                                            icon: <FaCheck />,
+                                          },
+                                       ]}
+                                       personalFields={[
+                                         { key: "urgency", icon: <FaClock /> },
+                                         { key: "patientPhone", icon: <FaPhone /> },
+                                      ]}
+                                          actions={[
+                                            {
+                                              label: "Approve",
+                                              icon: <FaCheckCircle className="w-3 h-3" />,
+                                              color: "text-blue-600",
+                                              onClick: handleApproveRequest,
+                                            },
+                                            {
+                                              label: "Edit",
+                                              icon: <FaEdit className="w-3 h-3" />,
+                                              color: "text-gray-800",
+                                              onClick: handleEditRequest,
+                                            },
+                                            {
+                                              label: "Delete",
+                                              icon: <FaTrash className="w-3 h-3" />,
+                                              color: "text-red-600",
+                                              onClick: handleDeleteRequest,
+                                            }
+                                          ]}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                  </div>
 
       {/* Add/Edit Request Modal */}
       {showAddModal && (

@@ -9,9 +9,10 @@ const Navbar = () => {
 
   return (
     <div className="mb-1 sticky top-0 z-50 bg-white overflow-hidden">
-     <ColoredLine />
-      {/* Info and Social Icons */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center text-gray-400 text-xs md:text-sm px-2 py-1 ">
+      <ColoredLine />
+      
+      {/* Info and Social Icons - HIDDEN ON MOBILE */}
+      <div className="hidden md:flex md:flex-row md:justify-between md:items-center text-gray-400 text-xs md:text-sm px-2 py-1">
         {/* Info Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center flex-wrap gap-y-1">
           {/* location icon */}
@@ -151,9 +152,32 @@ const Navbar = () => {
           </a>
         </div>
       </div>
-      {/* Main Navbar */}
-      <div className="w-full flex justify-center py-2 bg-[#f1f4f8]">
-        <div className="flex items-center max-w-7xl w-full  md:px-6 relative">
+
+      {/* MOBILE ONLY - Simple nav bar */}
+      <div className="md:hidden flex justify-between items-center px-4 py-3 bg-[#e0e7ef]">
+        {/* Hamburger button */}
+        <button
+          className="p-2 focus:outline-none bg-[#0b2443] rounded-xl shadow-sm border border-gray-200"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Login button */}
+        <Link
+          href="/login"
+          className="bg-[#1a2c48] text-white rounded-lg py-2 px-4 font-semibold shadow hover:bg-[#223a5f] transition"
+        >
+          Login
+        </Link>
+      </div>
+
+      {/* DESKTOP ONLY - Original navbar */}
+      <div className="hidden md:block w-full justify-center py-2 bg-[#f1f4f8]">
+        <div className="flex items-center max-w-7xl w-full md:px-6 relative">
           {/* Colored background section */}
           <div className="flex items-center flex-1 rounded-full rounded-r-full shadow-sm border border-gray-200 bg-[#B1B9C233] py-2 pl-4 pr-12 relative">
             {/* Logo */}
@@ -162,18 +186,9 @@ const Navbar = () => {
               alt="King's College Hospital London"
               style={{ minWidth: 48 }}
             />
-            {/* Hamburger for mobile */}
-            <button
-              className="md:hidden ml-4 p-2 focus:outline-none"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              aria-label="Toggle navigation menu"
-            >
-              <svg className="h-6 w-6 text-[#1a2c48]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+            
             {/* Nav Links */}
-            <nav className="hidden md:flex flex-1 justify-center items-center space-x-4 lg:space-x-6 text-[#1a2c48] font-semibold text-xs md:text-sm">
+            <nav className="flex flex-1 justify-center items-center space-x-4 lg:space-x-6 text-[#1a2c48] font-semibold text-xs md:text-sm">
               <Link href="/about" className="hover:text-[#4C60AB]">
                 ABOUT
               </Link>
@@ -196,32 +211,7 @@ const Navbar = () => {
                 CAREERS
               </Link>
             </nav>
-            {/* Mobile Nav Links */}
-            {mobileMenuOpen && (
-              <nav className="absolute top-12 left-0 w-full bg-white border-t border-gray-200 flex flex-col items-center space-y-2 py-4 shadow-lg md:hidden z-50">
-                <Link href="/about" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  ABOUT
-                </Link>
-                <Link href="/specialties" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  SPECIALTIES
-                </Link>
-                <Link href="/doctors" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  DOCTORS
-                </Link>
-                <Link href="/appointment" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  APPOINTMENT
-                </Link>
-                <Link href="/contact" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  CONTACT
-                </Link>
-                <Link href="/insurance" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  INSURANCE
-                </Link>
-                <Link href="/careers" className="hover:text-[#4C60AB] w-full text-center py-2" onClick={() => setMobileMenuOpen(false)}>
-                  CAREERS
-                </Link>
-              </nav>
-            )}
+            
             {/* Search */}
             <div
               className={`flex items-center bg-white rounded-full shadow transition-all duration-300 border border-gray-300 ${
@@ -232,7 +222,7 @@ const Navbar = () => {
               style={{ minHeight: 40 }}
             >
               <svg
-                className="h-5 w-5 text-[#1a2c48] mx-2 "
+                className="h-5 w-5 text-[#1a2c48] mx-2"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -251,16 +241,81 @@ const Navbar = () => {
               />
             </div>
           </div>
-          {/* Login button, overlapping the colored background */}
+          
+          {/* Login button */}
           <Link
             href="/login"
-            className="bg-[#1a2c48] text-white rounded-lg  py-2 font-semibold shadow hover:bg-[#223a5f] transition -ml-10 z-10 min-w-[80px] text-center px-2 sm:px-4"
+            className="bg-[#1a2c48] text-white rounded-lg py-2 font-semibold shadow hover:bg-[#223a5f] transition -ml-10 z-10 min-w-[80px] text-center px-2 sm:px-4"
             style={{ minWidth: 100, textAlign: "center" }}
           >
             Login
           </Link>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-gray-50 border-t border-gray-200 shadow-lg animate-slideDown">
+          <nav className="flex flex-col py-4 space-y-2">
+            <Link 
+              href="/about" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da] hover:bg-[#223a5f] mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.1s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              ABOUT
+            </Link>
+            <Link 
+              href="/specialties" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da]  mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.2s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              SPECIALTIES
+            </Link>
+            <Link 
+              href="/doctors" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da]  mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.3s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              DOCTORS
+            </Link>
+            <Link 
+              href="/appointment" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da]  mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.4s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              APPOINTMENT
+            </Link>
+            <Link 
+              href="/contact" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da] mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.5s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              CONTACT
+            </Link>
+            <Link 
+              href="/insurance" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da]  mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.6s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              INSURANCE
+            </Link>
+            <Link 
+              href="/careers" 
+              className="text-[#0B2443] font-semibold bg-[#c0e6da] hover:bg-violet-700 mx-4 rounded-lg py-3 px-6 transition-all duration-300 transform hover:translate-x-2 hover:shadow-lg animate-fadeInUp"
+              style={{ animationDelay: '0.7s' }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              CAREERS
+            </Link>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };

@@ -5,8 +5,9 @@ import { SearchContext } from "../../../components/Context/SearchContext";
 import CommonAddButton from "../../../components/compafterlogin/Common/CommonAddButton";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
-import { FaTimes, FaTrash } from 'react-icons/fa';
+import { FaBuilding, FaCalendarAlt, FaCheck, FaClock, FaDollarSign, FaDownload, FaEnvelope, FaPhone, FaTimes, FaTrash, FaUser } from 'react-icons/fa';
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
 
 // Delete Payroll Modal Component
 const DeletePayrollModal = ({ isOpen, payroll, onClose, onDelete }) => {
@@ -559,7 +560,7 @@ const PayrollList = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -620,7 +621,8 @@ const PayrollList = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { 
             label: "Payroll ID", 
@@ -727,6 +729,58 @@ const PayrollList = () => {
           },
         ]}
       />
+      </div>
+
+      <div className='block md:hidden'>
+              <h1 className='text-2xl font-bold text-center text-[#0b2443] mb-2'>Payrolls</h1>
+            <div className="grid md:hidden grid-cols-2 gap-4">
+              {payrolls.length === 0 ? (
+                <div className="text-center text-gray-500 py-8">
+                  <FaUserMd className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                  <p>No payrolls found.</p>
+                </div>
+              ) : (
+                filteredPayrolls.map((payroll) => (
+                  <GenericCard
+                    key={payroll.id}
+                    data={payroll}
+                    hospitalFields={[
+                    {
+                      key: "payrollId",
+                      icon: <FaUser />,
+                    },
+                    {
+                      key: "month",
+                      icon: <FaClock />,
+                    },
+                    {
+                      key: "status",
+                      icon: <FaCheck />,
+                    }
+                     ]}
+                     personalFields={[
+                    { key: "createdDate", icon:<FaCalendarAlt /> },
+                    { key: "payrollPeriod", icon:<FaCalendarAlt /> },
+                     ]}
+                    actions={[
+                      {
+                        label: "Edit",
+                        icon: <FaDownload className="w-3 h-3" />,
+                        color: "text-[#0B2443]",
+                        onClick: handleDownloadPayroll,
+                      },
+                      {
+                        label: "Delete",
+                        icon: <FaTrash className="w-3 h-3" />,
+                        color: "text-red-600",
+                        onClick: openDeleteModal,
+                      },
+                    ]}
+                  />
+                ))
+              )}
+            </div>
+            </div>
 
       {/* Delete Modal */}
       <DeletePayrollModal

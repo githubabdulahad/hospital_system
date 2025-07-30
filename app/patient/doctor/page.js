@@ -169,16 +169,22 @@ export default function MyDoctors() {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex items-center mb-6">
+      <div className="flex items-center mb-6 flex-wrap">
         <span className="text-2xl mr-2">
           <FaUserMd className="w-7 h-7 text-blue-500" />
         </span>
-        <h1 className="text-2xl font-bold text-gray-800">My Doctors</h1>
-        <span className="ml-3 text-sm text-gray-600">Healthcare team currently treating you</span>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">
+            My Doctors
+          </h1>
+          <span className="text-sm text-gray-600 block md:inline">
+            Healthcare team currently treating you
+          </span>
+        </div>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}

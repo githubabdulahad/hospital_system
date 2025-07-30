@@ -88,7 +88,8 @@ export default function PharmaProfile() {
     <div className="min-h-screen bg-gradient-to-br from-[#C0E6DA]/30 via-white to-[#198172]/10" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Desktop */}
+        <div className="max-w-7xl mx-auto hidden md:flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link 
               href="/pharmacist/dashboard"
@@ -118,15 +119,44 @@ export default function PharmaProfile() {
             </Link>
           </div>
         </div>
+        {/* Mobile */}
+        <div className="max-w-7xl mx-auto flex flex-col md:hidden items-center">
+          <div className="flex items-center mb-1">
+            <Link 
+              href="/pharmacist/dashboard"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </Link>
+            <h1 className="text-2xl font-bold text-[#0B2443] ml-2">Pharmacist Profile</h1>
+          </div>
+          <p className="text-sm text-gray-600 mb-2 text-center">View and manage pharmacist information</p>
+          <div className="flex flex-col w-full gap-2">
+            <button 
+              onClick={() => { setEditMode(true); setForm(profile); }}
+              className="w-1/2 px-4 py-2 text-[#0b2443] bg-[#c0e6da] hover:bg-[#abd5d0] rounded-lg transition-colors font-medium"
+            >
+              Edit Profile
+            </button>
+            <Link 
+              href='/pharmacist/manage-medicine' 
+              className="w-1/2 px-4 py-2 bg-[#0b2443] text-white hover:bg-[#273c54] rounded-lg transition-colors font-medium"
+            >
+              Manage Medicines
+            </Link>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
         {/* Profile Card */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden mb-6">
           <div className="p-6">
-            <div className="flex items-start space-x-6">
+            <div className="flex flex-col md:flex-row md:items-start md:space-x-6 space-y-6 md:space-y-0 items-center">
               {/* Profile Image */}
-              <div className="relative">
+              <div className="relative flex justify-center md:block">
                 <div className="w-20 h-20 bg-gradient-to-r from-[#198172] to-[#0B2443] rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
                   {profile.avatar ? (
                     <img src={profile.avatar} alt="Profile Avatar" className="w-full h-full object-cover" />
@@ -137,32 +167,31 @@ export default function PharmaProfile() {
               </div>
 
               {/* Profile Info */}
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h2 className="text-2xl font-bold text-[#0B2443]">{profile.name}</h2>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              <div className="flex-1 w-full md:w-auto">
+                <div className="flex flex-col md:flex-row md:items-center md:space-x-3 mb-2 items-center">
+                  <h2 className="text-2xl font-bold text-[#0B2443] text-center md:text-left">{profile.name}</h2>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-2 md:mt-0">
                     <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 8 8">
                       <circle cx={4} cy={4} r={3} />
                     </svg>
                     {profile.status}
                   </span>
                 </div>
-                <p className="text-lg text-gray-600 mb-4">{profile.department}</p>
-                
+                <p className="text-lg text-gray-600 mb-4 text-center md:text-left">{profile.department}</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 justify-center md:justify-start">
                     <svg className="w-4 h-4 text-[#198172]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 9.172V5L8 4z" />
                     </svg>
                     <span className="text-gray-600">{profile.designation}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 justify-center md:justify-start">
                     <svg className="w-4 h-4 text-[#198172]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V4a2 2 0 114 0v2m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
                     </svg>
                     <span className="text-gray-600">ID: {profile.employeeId}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 justify-center md:justify-start">
                     <svg className="w-4 h-4 text-[#198172]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -172,7 +201,7 @@ export default function PharmaProfile() {
               </div>
 
               {/* Contact Info */}
-              <div className="text-right">
+              <div className="w-full md:w-auto text-center md:text-right mt-6 md:mt-0">
                 <div className="mb-3">
                   <p className="text-sm text-gray-500 mb-1">Phone</p>
                   <p className="text-sm font-medium text-[#0B2443]">{profile.phone}</p>
@@ -187,7 +216,7 @@ export default function PharmaProfile() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {statData.map((stat, index) => (
                     <StatCard
                       key={index}
@@ -199,7 +228,7 @@ export default function PharmaProfile() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden">
+        <div className="hidden md:block bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8 px-6">
               {[

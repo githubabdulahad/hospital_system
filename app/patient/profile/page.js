@@ -57,14 +57,14 @@ const PatientProfile = () => {
     <div className="min-h-screen bg-gray-50 p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 flex-wrap ">
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center">
               <FaUser className="w-8 h-8 text-[#0B2443]" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#0B2443]">Patient Profile</h1>
-              <p className="text-gray-600 mt-1">View and manage your personal information</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-[#0B2443]">Patient Profile</h1>
+              <p className="text-gray-600 mt-1 block md:inline mb-2">View and manage your personal information</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
@@ -79,7 +79,7 @@ const PatientProfile = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-white rounded-lg shadow-sm border mb-6 overflow-hidden">
+        <div className="bg-white hidden md:block rounded-lg shadow-sm border mb-6 overflow-hidden">
           <div className="flex border-b border-gray-200 overflow-x-auto">
             {tabs.map((tab) => (
               <button

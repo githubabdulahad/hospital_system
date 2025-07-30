@@ -5,8 +5,11 @@ import AddPharmacistModal from "../../../components/compafterlogin/Admin/AddPhar
 import EditPharmacistModal from "../../../components/compafterlogin/Admin/EditPharmacistModal"
 import DeletePharmacistModal from "../../../components/compafterlogin/Admin/DeletePharmacistModal";
 import Toast from "../../../components/compafterlogin/Common/Toast";
-import { FaPills, FaPlus, FaEdit, FaTrash, FaEnvelope, FaPhone, FaMapMarkerAlt, FaUserCircle, FaIdCard, FaCertificate, FaClock, FaGraduationCap } from 'react-icons/fa';
+import { FaPills, FaPlus, FaEdit, FaTrash, FaEnvelope, FaPhone, FaVenusMars, FaUserCircle, FaIdCard, FaCertificate, FaClock, FaGraduationCap, FaUser, FaBuilding, FaUserGraduate } from 'react-icons/fa';
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaDollarSign } from "react-icons/fa6";
+
 
 const AdmPharmacists = () => {
   const { search } = useContext(SearchContext);
@@ -157,8 +160,8 @@ const AdmPharmacists = () => {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+        <div className="flex items-center mb-4 md:mb-0">
           <FaPills className="w-7 h-7 text-[#0B2443] mr-3" />
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Pharmacists Management</h1>
@@ -167,7 +170,7 @@ const AdmPharmacists = () => {
         </div>
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-[#0B2443] hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
+          className="bg-[#0B2443] hover:bg-blue-900 w-1/2 md:w-auto text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
         >
           <FaPlus className="w-4 h-4" />
           Add Pharmacist
@@ -175,14 +178,14 @@ const AdmPharmacists = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-6">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -278,6 +281,55 @@ const AdmPharmacists = () => {
           </div>
         </div>
       </div>
+
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Accountant List</h1>
+              <div className="grid  grid-cols-2 gap-4">
+                              {filteredPharmacists.length === 0 ? (
+                                <div className="text-center text-gray-500 py-8">
+                                  <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                  <p>No accountants found.</p>
+                                </div>
+                              ) : (
+                                filteredPharmacists.map((pharmacist) => (
+                                  <GenericCard
+                                    key={pharmacist.id}
+                                    data={pharmacist}
+                                    hospitalFields={[
+                                    {
+                                      key: "position",
+                                      icon: <FaUserGraduate />,
+                                    },
+                                    {
+                                        key: "department",
+                                        icon: <FaBuilding />,
+                                      },
+                                    ]}
+                                    personalFields={[
+                                   { key: "email", icon: <FaEnvelope /> },
+                                   { key: "phone", icon: <FaPhone /> },
+                                   { key: "gender", icon: <FaUser /> },
+                                    ]}
+                                    actions={[
+                                      {
+                                        label: "Edit",
+                                        icon: <FaEdit className="w-3 h-3" />,
+                                        color: "text-[#0B2443]",
+                                        onClick: openEditModal,
+                                      },
+                                      {
+                                        label: "Delete",
+                                        icon: <FaTrash className="w-3 h-3" />,
+                                        color: "text-red-600",
+                                        onClick: openDeleteModal,
+                                      },
+                                    ]}
+                                  />
+                                ))
+                              )}
+                            </div>
+            </div>
 
       {/* Modals */}
       <AddPharmacistModal

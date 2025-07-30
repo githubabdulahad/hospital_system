@@ -1,10 +1,12 @@
 "use client";
 import React, { useContext, useState } from 'react';
 import { SearchContext } from '../../../components/Context/SearchContext';
-import { FaCalendarAlt, FaClock, FaUserMd, FaMapMarkerAlt, FaPhone, FaEye, FaEdit, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
+import { FaCalendarAlt, FaClock, FaUserMd, FaMapMarkerAlt, FaPhone, FaEye, FaEdit, FaTimes, FaExclamationTriangle, FaTrash, FaUser, FaBuilding } from 'react-icons/fa';
 import StatCard from '../../../components/compafterlogin/Common/StatCard';
 import PendingAppointments from '../../../components/compafterlogin/Patient/PendingAppointments';
 import CancelAppointment from '../../../components/compafterlogin/Patient/CancelAppointment';
+import { FaUserDoctor } from 'react-icons/fa6';
+import GenericCard from '../../../components/compafterlogin/Common/GenericCard';
 
 const pendingAppointments = [
   { 
@@ -136,14 +138,14 @@ const PatientPendingAppointments = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
         ))}
       </div>
 
       {/* Appointments Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-6">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -221,6 +223,58 @@ const PatientPendingAppointments = () => {
           </div>
         </div>
       </div>
+
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Pending Appointments</h1>
+                    <div className="grid  grid-cols-2 gap-4">
+                                    {filteredData.length === 0 ? (
+                                      <div className="text-center text-gray-500 py-8">
+                                        <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                        <p>No record found.</p>
+                                      </div>
+                                    ) : (
+                                      filteredData.map((data) => (
+                                        <GenericCard
+                                          key={data.id}
+                                          data={data}
+                                          hospitalFields={[
+                                         {
+                                           key: "patient",
+                                           icon: <FaUser />,
+                                         },
+                                         {
+                                           key: "doctor",
+                                           icon: <FaUserDoctor />,
+                                         },
+                                         
+                                         {
+                                           key: "urgency",
+                                           icon: <FaClock />,
+                                         },
+                                       ]}
+                                       personalFields={[
+                                         { key: "department", icon: <FaBuilding /> },
+                                         { key: "date", icon: <FaCalendarAlt /> },
+                                      ]}
+                                          actions={[
+                                            {
+                                              label: "View",
+                                              icon: <FaEye className="w-3 h-3" />,
+                                              color: "text-[#0B2443] ",
+                                              onClick: handleViewDetails,
+                                            },
+                                            {
+                                              label: "Download",
+                                              icon: <FaTrash className="w-3 h-3" />,
+                                              color: "text-red-600",
+                                              onClick: handleCancelAppointment,
+                                            }
+                                          ]}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                  </div>
 
       {/* View Details Modal */}
       {showModal && selectedAppointment && (

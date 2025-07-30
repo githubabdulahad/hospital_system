@@ -4,6 +4,9 @@ import { SearchContext } from "../../../components/Context/SearchContext";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaCheck, FaClock, FaIndustry, FaList, FaVenusMars } from "react-icons/fa";
+import { FaCalendarCheck } from "react-icons/fa6";
 
 const Medicine = () => {
   const { search } = useContext(SearchContext);
@@ -238,7 +241,7 @@ const Medicine = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -280,7 +283,8 @@ const Medicine = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className ="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Medicine ID", key: "medicineId" },
           { label: "Name", key: "name" },
@@ -309,6 +313,53 @@ const Medicine = () => {
         ]}
         data={filteredMedicines}
       />
+      </div>
+
+      <div className="block md:hidden">
+                                <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                                  Medicine Inventory
+                                </h1>
+                                <div className="grid grid-cols-2 gap-4">
+                                  {filteredMedicines.length === 0 ? (
+                                    <div className="text-center text-gray-500 py-8 col-span-2">
+                                      <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                      <p>No medicines found.</p>
+                                    </div>
+                                  ) : (
+                                    filteredMedicines.map((medicine) => (
+                                      <GenericCard
+                                        key={medicine.id}
+                                        data={medicine}
+                                        hospitalFields={[
+                                          {
+                                            key: "stock",
+                                            icon: <FaCheck className="w-3 h-3" />,
+                                          },
+                                          {
+                                            key: "expiryDate",
+                                            icon: <FaCalendarCheck className="w-3 h-3" />,
+                                          },
+                                          {
+                                            key: "status",
+                                            icon: <FaClock className="w-3 h-3" />,
+                                          },
+                                        ]}
+                                        personalFields={[
+                                          {
+                                            key: "manufacturer",
+                                            icon: <FaIndustry/>,
+                                          },
+                                          {
+                                            key: "category",
+                                            icon: <FaList  />,
+                                          }
+                                        ]}
+                                        // Optionally add actions here if needed
+                                      />
+                                    ))
+                                  )}
+                                </div>
+                              </div>
 
       <Toast
         message={toast.message}

@@ -2,7 +2,7 @@ import BannerWithOverlay from "../subComponents/bannerwithoverlay";
 
 const Specialityoverlay = () => {
   return (
-    <div className="mt-11">
+    <div className="mt-7 sm:mt-11">
     <BannerWithOverlay
       imageSrc="/images/Specialitiesimage/drimg1.png"
       italicText="Welcome to Kings College Hospital London"

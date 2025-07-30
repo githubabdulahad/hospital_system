@@ -1,6 +1,8 @@
+"use client";
 import { FaHeadphones, FaTooth, FaRibbon, FaHeartbeat } from "react-icons/fa";
 import Commonbtn from "../subComponents/Commonbtn";
-import  Link  from "next/link";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 
 const specialities = [
   {
@@ -78,31 +80,51 @@ const specialities = [
 ];
 
 export default function OurSpecialities() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
+  // Show only first 4 cards on mobile, all cards on desktop
+  const displayedSpecialities = isMobile ? specialities.slice(0, 4) : specialities;
+
   return (
     <section className="max-w-6xl mx-auto py-10 px-4 mb-12">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
+      <div className="flex flex-col items-center md:flex-row md:justify-between md:items-center mb-8 gap-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
         <div>
-          <h4 className="text-base text-[#0B2443] mb-1 font-semibold">Need Professional Help?</h4>
-          <h2 className="text-3xl font-bold mb-2">Our Specialties</h2>
+          <h4 className="text-base text-[#0B2443] mb-1 text-center sm:text-left font-semibold">Need Professional Help?</h4>
+          <h2 className="text-3xl font-bold sm:mb-2 text-center sm:text-left">Our Specialties</h2>
         </div>
         <div className="flex items-center gap-4">
           <button className="group relative font-bold text-[#0B2443] mr-3 flex items-center focus:outline-none">
-      
-      <span
-        className="absolute left-0 -bottom-1 w-full h-1 border-b-2 border-[#0B2443] transition-all duration-200 group-hover:w-full"
-      />
-    </button>
+            <span className="absolute left-0 -bottom-1 w-full h-1 border-b-2 border-[#0B2443] transition-all duration-200 group-hover:w-full" />
+          </button>
           <Link href="/appointment" style={{ fontFamily: "'Poppins', sans-serif" }}>
-          <Commonbtn bgColor="bg-[#C0E6DA]" textColor="text-[#0B2443]" >Book Appointment</Commonbtn>
+            <Commonbtn bgColor="bg-[#C0E6DA]" textColor="text-[#0B2443]" className="-ml-5 sm:-ml-0">Book Appointment</Commonbtn>
           </Link>
-        
         </div>
       </div>
+      
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4 mb-4" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
-        {specialities.map((spec) => (
+        {displayedSpecialities.map((spec, index) => (
           <div
-            key={spec.title}
-            className={`${spec.bg} rounded-xl p-6 flex flex-col items-center shadow-md transition-transform hover:-translate-y-1`}
+            key={`${spec.title}-${index}`}
+             className={`${spec.bg} rounded-xl p-6 flex flex-col items-center shadow-md transition-transform hover:-translate-y-1`}
           >
             <div className="mb-4">{spec.icon}</div>
             <h3 className="text-lg font-semibold mb-2">{spec.title}</h3>

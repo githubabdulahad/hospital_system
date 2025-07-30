@@ -7,6 +7,8 @@ import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import Viewbedallotment from "../../../components/compafterlogin/Admin/Viewbedallotment";
 import Editbedallotment from "../../../components/compafterlogin/Admin/Editbedallotment";
 import DeleteBedAllotment from "../../../components/compafterlogin/Admin/Deletebedallotment";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaBed, FaBuilding, FaCalendarAlt, FaClock, FaDollarSign, FaEdit, FaEnvelope, FaPhone, FaTrash, FaUser, FaVenusMars } from "react-icons/fa";
 
 const BedAllotment = () => {
   const { search } = useContext(SearchContext);
@@ -417,7 +419,7 @@ const BedAllotment = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard
             icon={stat.icon}
@@ -485,6 +487,7 @@ const BedAllotment = () => {
         </div>
       </div>
 
+        <div className="hidden md:block">
       <CommonTable
         columns={[
           { label: "Allotment ID", key: "allotmentId" },
@@ -598,6 +601,82 @@ const BedAllotment = () => {
           },
         ]}
       />
+      </div>
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                Bed Allotment List
+              </h1>
+              <div className="grid  grid-cols-2 gap-4">
+                {filteredAllotments.length === 0 ? (
+                  <div className="text-center text-gray-500 py-8">
+                    <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                    <p>No bed allotments found.</p>
+                  </div>
+                ) : (
+                  filteredAllotments.map((allotment) => (
+                    <GenericCard
+                      key={allotment.id}
+                      data={allotment}
+                      hospitalFields={[
+                     {
+                       key: "patientName",
+                       label: "Patient",
+                       icon: <FaUser />,
+                     },
+                     {
+                       key: "bedNumber",
+                       label: "Bed No",
+                       icon: <FaBed />,
+                     },
+                     {
+                      key:"status",
+                      label: "Status",
+                      icon: <FaClock />,
+                     }
+                   ]}
+                   personalFields={[
+                  { key: "allotmentDate", icon: <FaCalendarAlt /> },
+                  { key: "wardName", icon: <FaBed /> },
+                   ]}
+                      actions={[
+                        {
+                          label: "View Details",
+                          icon: <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>,
+                          color: "text-blue-900",
+                          onClick: handleViewAllotment,
+                        },
+                        {
+                          label: "Edit Allotment",
+                          icon: (
+                            <FaEdit className="w-3 h-3" />
+                          ),
+                          color: "text-green-900",
+                          onClick: handleEditAllotment,
+                        },
+                        {
+                          label: "Delete Allotment",
+                          icon: (
+                            <FaTrash className="w-3 h-3" />
+                          ),
+                          color: "text-red-600",
+                          onClick: handleDeleteAllotment,
+                        },
+                      ]}
+                    />
+                  ))
+                )}
+              </div>
+            </div>
 
       {/* View Details Modal */}
       {showViewModal && (

@@ -47,7 +47,7 @@ export default function DoctorDashboard() {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
           {statData.map((stat, index) => (
                     <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                   ))}
@@ -59,7 +59,7 @@ export default function DoctorDashboard() {
             <h2 className="text-xl font-bold text-[#0B2443]">Quick Actions</h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button 
                 onClick={() => router.push('/doctor/patients')}
                 className="flex flex-col items-center p-4 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all duration-300 group"

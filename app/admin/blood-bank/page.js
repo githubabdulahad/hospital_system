@@ -6,6 +6,8 @@ import Toast from "../../../components/compafterlogin/Common/Toast";
 import EditBloodBankModel from "../../../components/compafterlogin/Admin/Editbloodbankmodel";
 import DeleteBloodbankModal from "../../../components/compafterlogin/Admin/DeleteBloodbankModal";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaBuilding, FaCalendarAlt, FaClock, FaEdit, FaTrash, FaUser, FaVenusMars } from "react-icons/fa";
 
 const BloodBank = () => {
   const { search } = useContext(SearchContext);
@@ -287,7 +289,7 @@ const BloodBank = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
        {statData.map((stat, index) => (
                  <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                ))}
@@ -331,7 +333,8 @@ const BloodBank = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Blood ID", key: "bloodId" },
           { 
@@ -407,6 +410,67 @@ const BloodBank = () => {
           },
         ]}
       />
+      </div>
+
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                      Blood Record List
+                    </h1>
+                    <div className="grid  grid-cols-2 gap-4">
+                      {filteredInventory.length === 0 ? (
+                        <div className="text-center text-gray-500 py-8">
+                          <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                          <p>No blood units found.</p>
+                        </div>
+                      ) : (
+                        filteredInventory.map((blood) => (
+                          <GenericCard
+                            key={blood.id}
+                            data={blood}
+                            hospitalFields={[
+                              {
+                                key: "bloodType",
+                                label: "Blood Type",
+                                icon: <FaUser />,
+                              },
+                           {
+                             key: "unitsAvailable",
+                             label: "Blood Units",
+                             icon: <FaBuilding />,
+                           },
+                           {
+                            key: "status",
+                            label: "Status",
+                            icon: <FaClock />,
+                           }
+                            ]}
+                            personalFields={[
+                           { key: "collectionDate", icon: <FaCalendarAlt /> },
+                           { key: "expiryDate", icon: <FaCalendarAlt /> },
+                            ]}
+                            actions={[
+                              {
+                                label: "Edit Allotment",
+                                icon: (
+                                  <FaEdit className="w-3 h-3" />
+                                ),
+                                color: "text-[#0b2443]",
+                                onClick: handleEditBlood,
+                              },
+                              {
+                                label: "Delete Allotment",
+                                icon: (
+                                  <FaTrash className="w-3 h-3" />
+                                ),
+                                color: "text-red-600",
+                                onClick: handleDeleteBlood,
+                              },
+                            ]}
+                          />
+                        ))
+                      )}
+                    </div>
+                  </div>
 
       {/* Edit Modal */}
       {showEditModal && (

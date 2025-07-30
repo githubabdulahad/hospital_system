@@ -12,8 +12,8 @@ export default function LoginPage() {
   return (
     <div>
       <Info/>
-      <Maincomp/>
-      <ColoredLine/>
+      <Maincomp />
+      <ColoredLine />
     </div>
   )
 }

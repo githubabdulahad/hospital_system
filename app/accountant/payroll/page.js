@@ -1,11 +1,12 @@
 "use client";
 import  { useState, useContext } from "react";
 import { SearchContext } from "../../../components/Context/SearchContext";
-import { FaMoneyBillWave, FaUsers, FaClipboardCheck, FaClock, FaEye, FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import { FaMoneyBillWave, FaUsers, FaClipboardCheck, FaClock, FaEye, FaEdit, FaTrash, FaPlus, FaTimes, FaUser, FaDollarSign, FaCalendarAlt, FaUserGraduate } from "react-icons/fa";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import ViewPayroll from "../../../components/compafterlogin/Accountant/ViewPayroll";
 import AddPayrollModal from "../../../components/compafterlogin/Accountant/AddPayrollModal";
 import DeletePayrollModal from "../../../components/compafterlogin/Accountant/DeletePayrollModal";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
 
 const payrolls = [
   { id: "PR-0012", employee: "Dr. John Doe", role: "Doctor", month: "June 2025", amount: "$6,000", status: "Paid", date: "2025-07-01", department: "Cardiology", baseSalary: 5500, bonus: 500, deductions: 0 },
@@ -154,8 +155,8 @@ const AccountantPayroll = () => {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+        <div className="flex items-center md:mb-0 mb-4">
           <FaMoneyBillWave className="w-8 h-8 text-[#516961] mr-3" />
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Payroll Management</h1>
@@ -164,7 +165,7 @@ const AccountantPayroll = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-[#C0E6da] hover:bg-[#a5d7c7] text-[#0B2443] px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
+          className="bg-[#C0E6da] hover:bg-[#a5d7c7] text-[#0B2443] px-6 py-3 rounded-lg w-1/2 md:w-auto font-medium flex items-center gap-2 transition-colors shadow-lg"
         >
           <FaPlus className="w-4 h-4" />
           Add Payroll
@@ -172,14 +173,14 @@ const AccountantPayroll = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
       </div>
 
       {/* Payroll Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-6">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -252,6 +253,59 @@ const AccountantPayroll = () => {
           </div>
         </div>
       </div>
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                Payrolls
+              </h1>
+              <div className="grid md:hidden grid-cols-2 gap-4">
+                {filteredData.length === 0 ? (
+                  <div className="text-center text-gray-500 py-8">
+                    <FaUserMd className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                    <p>No payrolls found.</p>
+                  </div>
+                ) : (
+                  filteredData.map((payroll) => (
+                    <GenericCard
+                      key={payroll.id}
+                      data={payroll}
+                      hospitalFields={[
+                        {
+                          key: "employee",
+                          icon: <FaUserGraduate />,
+                        },
+                        {
+                          key: "role",
+                          icon: <FaUser />,
+                        },
+                        {
+                          key: "status",
+                          icon:<FaClock />
+                        }
+                      ]}
+                      personalFields={[
+                        { key: "amount", icon: <FaDollarSign /> },
+                        { key: "date", icon: <FaCalendarAlt /> }
+                      ]}
+                      actions={[
+                        {
+                          label: "View",
+                          icon: <FaEye className="w-3 h-3" />,
+                          color: "text-[#0B2443]",
+                          onClick: handleViewDetails,
+                        },
+                        {
+                          label: "Delete",
+                          icon: <FaTrash className="w-3 h-3" />,
+                          color: "text-red-600",
+                          onClick: handleDelete,
+                        },
+                      ]}
+                    />
+                  ))
+                )}
+              </div>
+            </div>
 
       {/* View Details Modal */}
       {showModal &&  (

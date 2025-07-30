@@ -1,9 +1,11 @@
 "use client";
 import React, { useContext, useState } from 'react';
 import { SearchContext } from '../../../components/Context/SearchContext';
-import { FaEye, FaBed, FaCalendarAlt, FaHospital, FaUserMd } from 'react-icons/fa';
+import { FaEye, FaBed, FaCalendarAlt, FaHospital, FaUserMd, FaIdCard, FaVenusMars, FaBuilding, FaUser } from 'react-icons/fa';
 import StatCard from '../../../components/compafterlogin/Common/StatCard';
 import Viewhistorymodal from '../../../components/compafterlogin/Patient/Viewhistorymodal';
+import GenericCard from '../../../components/compafterlogin/Common/GenericCard';
+import { FaUserDoctor } from 'react-icons/fa6';
 
 const admitHistoryData = [
   {
@@ -184,16 +186,22 @@ export default function PatientAdmitHistory() {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex items-center mb-6">
-        <span className="text-2xl mr-2">
-          <FaHospital className="w-7 h-7 text-blue-500" />
-        </span>
-        <h1 className="text-2xl font-bold text-gray-800">My Admission History</h1>
-        <span className="ml-3 text-sm text-gray-600">Your hospital stay records</span>
-      </div>
+      <div className="flex items-center mb-6 flex-wrap">
+  <span className="text-2xl mr-2">
+    <FaHospital className="w-7 h-7 text-blue-500" />
+  </span>
+  <div>
+    <h1 className="text-2xl font-bold text-gray-800">
+      My Admission History
+    </h1>
+    <span className="text-sm text-gray-600 block md:inline ml-0 ">
+      Your hospital stay records
+    </span>
+  </div>
+</div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -230,7 +238,7 @@ export default function PatientAdmitHistory() {
       </div>
 
       {/* Admissions Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-whiten hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -300,6 +308,53 @@ export default function PatientAdmitHistory() {
           </table>
         </div>
       </div>
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Admit History</h1>
+              <div className="grid  grid-cols-2 gap-4">
+                              {filteredData.length === 0 ? (
+                                <div className="text-center text-gray-500 py-8">
+                                  <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                  <p>No record found.</p>
+                                </div>
+                              ) : (
+                                filteredData.map((admission) => (
+                                  <GenericCard
+                                    key={admission.id}
+                                    data={admission}
+                                    hospitalFields={[
+                                   {
+                                     key: "admissionId",
+                                     icon: <FaIdCard />,
+                                   },
+                                   {
+                                     key: "admissionDate",
+                                     icon: <FaCalendarAlt />,
+                                   },
+                                   
+                                   {
+                                     key: "ward",
+                                     icon: <FaBed />,
+                                   },
+                                 ]}
+                                 personalFields={[
+                                   { key: "attendingDoctor", icon: <FaUserDoctor /> },
+                                   { key: "department", icon: <FaBuilding /> },
+                                   { key: "reasonForAdmission", icon: <FaVenusMars /> },
+                                ]}
+                                    actions={[
+                                      {
+                                        label: "View",
+                                        icon: <FaEye className="w-3 h-3" />,
+                                        color: "text-[#0B2443] ",
+                                        onClick: handleViewDetails,
+                                      }
+                                    ]}
+                                  />
+                                ))
+                              )}
+                            </div>
+            </div>
       {/* Admission Details Modal */}
       {showModal && selectedAdmission && (
         <Viewhistorymodal getStatusBadge={getStatusBadge} selectedAdmission={selectedAdmission} handleCloseModal={handleCloseModal} calculateTotalDays={calculateTotalDays} />

@@ -4,6 +4,17 @@ import { SearchContext } from "../../../components/Context/SearchContext";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import {
+  FaCalendarAlt,
+  FaClock,
+  FaDownload,
+  FaPrint,
+  FaSkull,
+  FaUser,
+  FaVenusMars,
+} from "react-icons/fa";
+import { FaUserDoctor } from "react-icons/fa6";
 
 const DeathReport = () => {
   const { search } = useContext(SearchContext);
@@ -136,23 +147,29 @@ const DeathReport = () => {
     },
   ]);
 
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
   const [filterGender, setFilterGender] = useState("All");
   const [filterAutopsy, setFilterAutopsy] = useState("All");
 
   const filteredDeaths = deaths.filter((death) => {
-    const matchesSearch = 
+    const matchesSearch =
       death.patientName.toLowerCase().includes(search.toLowerCase()) ||
       death.patientId.toLowerCase().includes(search.toLowerCase()) ||
       death.deathId.toLowerCase().includes(search.toLowerCase()) ||
       death.attendingPhysician.toLowerCase().includes(search.toLowerCase()) ||
       death.causeOfDeath.toLowerCase().includes(search.toLowerCase());
-    
-    const matchesGender = filterGender === "All" || death.gender === filterGender;
-    const matchesAutopsy = filterAutopsy === "All" || 
+
+    const matchesGender =
+      filterGender === "All" || death.gender === filterGender;
+    const matchesAutopsy =
+      filterAutopsy === "All" ||
       (filterAutopsy === "Required" && death.autopsy) ||
       (filterAutopsy === "Not Required" && !death.autopsy);
-    
+
     return matchesSearch && matchesGender && matchesAutopsy;
   });
 
@@ -169,9 +186,13 @@ const DeathReport = () => {
       Female: "bg-pink-100 text-pink-800",
       Male: "bg-blue-100 text-blue-800",
     };
-    
+
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${genderStyles[gender] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          genderStyles[gender] || "bg-gray-100 text-gray-800"
+        }`}
+      >
         {gender}
       </span>
     );
@@ -179,23 +200,33 @@ const DeathReport = () => {
 
   const getAutopsyBadge = (required) => {
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${required ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'}`}>
-        {required ? 'Required' : 'Not Required'}
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          required
+            ? "bg-orange-100 text-orange-800"
+            : "bg-green-100 text-green-800"
+        }`}
+      >
+        {required ? "Required" : "Not Required"}
       </span>
     );
   };
 
   const getCertificateStatus = (issued) => {
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${issued ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-        {issued ? 'Issued' : 'Pending'}
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          issued ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+        }`}
+      >
+        {issued ? "Issued" : "Pending"}
       </span>
     );
   };
 
   // Print functionality
   const handlePrintReport = (death) => {
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
@@ -334,15 +365,21 @@ const DeathReport = () => {
                   </div>
                   <div class="info-item">
                     <span class="info-label">Autopsy Required:</span>
-                    <span class="info-value">${death.autopsy ? 'Yes' : 'No'}</span>
+                    <span class="info-value">${
+                      death.autopsy ? "Yes" : "No"
+                    }</span>
                   </div>
                   <div class="info-item">
                     <span class="info-label">Death Certificate:</span>
-                    <span class="info-value">${death.deathCertificateIssued ? 'Issued' : 'Pending'}</span>
+                    <span class="info-value">${
+                      death.deathCertificateIssued ? "Issued" : "Pending"
+                    }</span>
                   </div>
                   <div class="info-item">
                     <span class="info-label">Burial Permit:</span>
-                    <span class="info-value">${death.burialPermit ? 'Issued' : 'Pending'}</span>
+                    <span class="info-value">${
+                      death.burialPermit ? "Issued" : "Pending"
+                    }</span>
                   </div>
                 </div>
               </div>
@@ -366,7 +403,9 @@ const DeathReport = () => {
               </div>
               <div class="info-item" style="margin-top: 15px;">
                 <span class="info-label">Family Notified:</span>
-                <span class="info-value">${death.familyNotified ? 'Yes' : 'No'}</span>
+                <span class="info-value">${
+                  death.familyNotified ? "Yes" : "No"
+                }</span>
               </div>
             </div>
             
@@ -387,45 +426,100 @@ const DeathReport = () => {
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
-    showToast(`Death report for ${death.patientName} printed successfully`, "success");
+    showToast(
+      `Death report for ${death.patientName} printed successfully`,
+      "success"
+    );
   };
 
   // Statistics
   const totalDeaths = deaths.length;
-  const maleDeaths = deaths.filter(d => d.gender === "Male").length;
-  const femaleDeaths = deaths.filter(d => d.gender === "Female").length;
-  const autopsyRequired = deaths.filter(d => d.autopsy).length;
+  const maleDeaths = deaths.filter((d) => d.gender === "Male").length;
+  const femaleDeaths = deaths.filter((d) => d.gender === "Female").length;
+  const autopsyRequired = deaths.filter((d) => d.autopsy).length;
 
   const statData = [
     {
-      icon:<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-500">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-gray-500"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      ),
       stat: totalDeaths,
       label: "Total Deaths",
     },
     {
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-blue-500">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-blue-500"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+      ),
       stat: maleDeaths,
-      label:"Male Deaths",
+      label: "Male Deaths",
     },
     {
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-pink-500">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-pink-500"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+      ),
       stat: femaleDeaths,
-      label:"Female Deaths",
+      label: "Female Deaths",
     },
     {
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-orange-500">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 4.5v.75m-6.75-3h13.5a2.25 2.25 0 002.25-2.25V7.5A2.25 2.25 0 0018.75 5H5.25A2.25 2.25 0 003 7.5v6a2.25 2.25 0 002.25 2.25z" />
-      </svg>,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-orange-500"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 9v3m0 4.5v.75m-6.75-3h13.5a2.25 2.25 0 002.25-2.25V7.5A2.25 2.25 0 0018.75 5H5.25A2.25 2.25 0 003 7.5v6a2.25 2.25 0 002.25 2.25z"
+          />
+        </svg>
+      ),
       stat: autopsyRequired,
-      label:"Autopsy Required",
+      label: "Autopsy Required",
     },
-  ]
+  ];
 
   return (
     <div
@@ -456,16 +550,23 @@ const DeathReport = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
-                  <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
-                ))}
+          <StatCard
+            icon={stat.icon}
+            stat={stat.stat}
+            label={stat.label}
+            key={index}
+          />
+        ))}
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Gender
+          </label>
           <select
             value={filterGender}
             onChange={(e) => setFilterGender(e.target.value)}
@@ -478,7 +579,9 @@ const DeathReport = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Autopsy</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Autopsy
+          </label>
           <select
             value={filterAutopsy}
             onChange={(e) => setFilterAutopsy(e.target.value)}
@@ -491,51 +594,111 @@ const DeathReport = () => {
         </div>
       </div>
 
-      <CommonTable
-        columns={[
-          { label: "Death ID", key: "deathId" },
-          { label: "Patient Name", key: "patientName" },
-          { label: "Age", key: "age" },
-          { 
-            label: "Gender", 
-            key: "gender", 
-            render: (death) => getGenderBadge(death.gender)
-          },
-          { label: "Date of Death", key: "dateOfDeath" },
-          { label: "Time", key: "timeOfDeath" },
-          { label: "Cause of Death", key: "causeOfDeath" },
-          { label: "Attending Physician", key: "attendingPhysician" },
-          { 
-            label: "Autopsy", 
-            key: "autopsy", 
-            render: (death) => getAutopsyBadge(death.autopsy)
-          },
-          { 
-            label: "Certificate", 
-            key: "deathCertificateIssued", 
-            render: (death) => getCertificateStatus(death.deathCertificateIssued)
-          },
-        ]}
-        data={filteredDeaths}
-        actions={[
-          {
-            label: (
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-              </svg>
-            ),
-            onClick: (death) => handlePrintReport(death),
-            className: "bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
-            title: "Print Report"
-          },
-        ]}
-      />
+      <div className="hidden md:block">
+        <CommonTable
+          columns={[
+            { label: "Death ID", key: "deathId" },
+            { label: "Patient Name", key: "patientName" },
+            { label: "Age", key: "age" },
+            {
+              label: "Gender",
+              key: "gender",
+              render: (death) => getGenderBadge(death.gender),
+            },
+            { label: "Date of Death", key: "dateOfDeath" },
+            { label: "Time", key: "timeOfDeath" },
+            { label: "Cause of Death", key: "causeOfDeath" },
+            { label: "Attending Physician", key: "attendingPhysician" },
+            {
+              label: "Autopsy",
+              key: "autopsy",
+              render: (death) => getAutopsyBadge(death.autopsy),
+            },
+            {
+              label: "Certificate",
+              key: "deathCertificateIssued",
+              render: (death) =>
+                getCertificateStatus(death.deathCertificateIssued),
+            },
+          ]}
+          data={filteredDeaths}
+          actions={[
+            {
+              label: (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+              ),
+              onClick: (death) => handlePrintReport(death),
+              className:
+                "bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
+              title: "Print Report",
+            },
+          ]}
+        />
+      </div>
+
+      <div className="block md:hidden">
+        <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+          Death Report Record List
+        </h1>
+        <div className="grid  grid-cols-2 gap-4">
+          {filteredDeaths.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">
+              <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+              <p>No Reports found.</p>
+            </div>
+          ) : (
+            filteredDeaths.map((death) => (
+              <GenericCard
+                key={death.id}
+                data={death}
+                hospitalFields={[
+                  {
+                    key: "causeOfDeath",
+                    icon: <FaSkull />,
+                  },
+                  {
+                    key: "age",
+                    icon: <FaClock />,
+                  },
+                  {
+                    key: "attendingPhysician",
+                    icon: <FaUserDoctor />,
+                  },
+                  { key: "patientName", icon: <FaUser/> },
+                ]}
+                personalFields={[
+                  {
+                    key: "timeOfDeath",
+                    icon: <FaClock />,
+                  },
+                  {
+                    key: "dateOfDeath",
+                    icon: <FaCalendarAlt />,
+                  },
+                  { key: "gender", icon: <FaUser /> },
+                ]}
+                actions={[
+                  {
+                    label: "Print Report",
+                    icon: <FaDownload className="w-3 h-3" />,
+                    color: "text-[#0b2443]",
+                    onClick: () => handlePrintReport(death),
+                  },
+                ]}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
       <Toast
         message={toast.message}
         isVisible={toast.show}

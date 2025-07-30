@@ -4,6 +4,8 @@ import { SearchContext } from "../../../components/Context/SearchContext";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaBuilding, FaChild, FaClock, FaEnvelope, FaPhone, FaTint, FaUser, FaVenusMars } from "react-icons/fa";
 
 const BloodDonor = () => {
   const { search } = useContext(SearchContext);
@@ -14,7 +16,7 @@ const BloodDonor = () => {
       name: "John Smith",
       bloodType: "A+",
       phone: "+1-555-0123",
-      email: "john.smith@email.com",
+      email: "john@email.com",
       age: 28,
       lastDonation: "2024-01-10",
       nextEligible: "2024-04-10",
@@ -228,7 +230,7 @@ const BloodDonor = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -271,7 +273,8 @@ const BloodDonor = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Donor ID", key: "donorId" },
           { label: "Name", key: "name" },
@@ -293,6 +296,44 @@ const BloodDonor = () => {
         ]}
         data={filteredDonors}
       />
+      </div>
+
+      <div className="block md:hidden">
+                          <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                            Blood Donors List
+                          </h1>
+                          <div className="grid  grid-cols-2 gap-4">
+                            {filteredDonors.length === 0 ? (
+                              <div className="text-center text-gray-500 py-8">
+                                <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                <p>No donors found.</p>
+                              </div>
+                            ) : (
+                              filteredDonors.map((donor) => (
+                                <GenericCard
+                                  key={donor.id}
+                                  data={donor}
+                                  hospitalFields={[
+                     {
+                       key: "bloodType",
+                       icon: <FaTint />,
+                     },
+                     {
+                       key: "age",
+                       icon: <FaChild />,
+                     },
+                   ]}
+                   personalFields={[
+                  { key: "email", icon:<FaEnvelope/> },
+                  { key: "phone", icon:<FaPhone/> },
+                  { key: "status", icon:<FaUser/> }
+                   ]}
+                                                         />
+                              ))
+                            )}
+                          </div>
+                        </div>
+
       <Toast
         message={toast.message}
         isVisible={toast.show}

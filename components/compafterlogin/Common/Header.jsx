@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import ColoredLine from "../../subComponents/ColoredLine";
 import { UserContext } from "../../Context/UserContext";
 
-const Header = () => {
+const Header = ({ onMobileMenuToggle }) => {
   const router = useRouter();
   const { user, logout } = useContext(UserContext);
   const { search, setSearch } = useContext(SearchContext);
@@ -13,18 +13,19 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    router.replace("/login"); // replace instead of push
+    router.replace("/login");
   };
 
   return (
     <div className="mb-1 sticky top-0 z-50 bg-white overflow-hidden">
       <ColoredLine />
-      {/* Info and Social Icons */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center text-gray-400 text-xs md:text-sm px-2 py-1 ">
+      
+      {/* Info and Social Icons - Hidden on mobile, shown on desktop */}
+      <div className="hidden md:flex md:justify-between md:items-center text-gray-400 text-sm px-2 py-1">
         {/* Info Section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center flex-wrap gap-y-1">
+        <div className="flex items-center flex-wrap gap-y-1">
           {/* location icon */}
-          <div className="flex items-center ml-0 sm:ml-3">
+          <div className="flex items-center ml-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-400 inline-block"
@@ -38,20 +39,12 @@ const Header = () => {
                 strokeWidth={2}
                 d="M12 22s7-7.58 7-12A7 7 0 0 0 5 10c0 4.42 7 12 7 12z"
               />
-              <circle
-                cx="12"
-                cy="10"
-                r="3"
-                stroke="currentColor"
-                strokeWidth={2}
-              />
+              <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth={2} />
             </svg>
-            <p className="ml-1">
-              Kings college hospital 2022 clinics & medical centre
-            </p>
+            <p className="ml-1">Kings college hospital 2022 clinics & medical centre</p>
           </div>
           {/* timings icon */}
-          <div className="flex items-center ml-0 sm:ml-4">
+          <div className="flex items-center ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-400 inline-block"
@@ -59,13 +52,7 @@ const Header = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                stroke="currentColor"
-                strokeWidth={2}
-              />
+              <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth={2} />
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -76,7 +63,7 @@ const Header = () => {
             <p className="ml-1">Monday - Sunday 8.00 - 20.00.</p>
           </div>
           {/* telephone icon */}
-          <div className="flex items-center ml-0 sm:ml-4">
+          <div className="flex items-center ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-400 inline-block"
@@ -88,8 +75,9 @@ const Header = () => {
             <p className="ml-1">+971 1 800 7777</p>
           </div>
         </div>
+        
         {/* Social Media Icons */}
-        <div className="flex items-center space-x-2 md:space-x-3 mt-2 md:mt-0 mr-4">
+        <div className="flex items-center space-x-3 mr-4">
           {/* Twitter */}
           <a
             href="https://twitter.com"
@@ -160,22 +148,44 @@ const Header = () => {
           </a>
         </div>
       </div>
+
       {/* Main Navbar - Logo, Search, Logout */}
       <div className="w-full flex justify-center py-2 bg-[#f1f4f8]">
-        <div className="flex items-center max-w-7xl w-full md:px-6 relative">
-          <div className="relative flex items-center justify-between flex-1 rounded-full rounded-r-full shadow-sm border border-gray-200 bg-[#B1B9C233] py-2 pl-4 pr-12 ">
+        <div className="flex items-center max-w-7xl w-full px-2 md:px-6 relative">
+          <div className="relative flex items-center justify-between flex-1 rounded-full shadow-sm border border-gray-200 bg-[#B1B9C233] py-2 pl-2 md:pl-4 pr-8 md:pr-12">
+            
+            {/* Mobile Menu Button - Only visible on mobile */}
+            <button
+              onClick={onMobileMenuToggle}
+              className="md:hidden flex items-center justify-center p-2 rounded-md text-[#1a2c48] hover:bg-gray-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
+            {/* Logo - Hidden on mobile, normal on desktop */}
             <img
               src="/images/kingsCollege.png"
               alt="King's College Hospital London"
+              className="hidden md:block"
               style={{ minWidth: 48 }}
             />
-            {/* Search */}
+            
+            {/* Search - Full width on mobile, original width on desktop */}
             <div
-              className="flex items-center bg-white rounded-full shadow transition-all duration-300 border border-gray-300 w-56 px-2"
+              className="flex items-center bg-white rounded-full shadow transition-all duration-300 border border-gray-300 px-2 w-full md:w-56 ml-2 md:ml-0"
               style={{ minHeight: 40 }}
             >
               <svg
-                className="h-5 w-5 text-[#1a2c48] mx-2 "
+                className="h-5 w-5 text-[#1a2c48] mx-2"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -187,21 +197,22 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Search…"
-                className="bg-transparent outline-none transition-all duration-300 w-40 opacity-100 ml-2"
+                className="bg-transparent outline-none transition-all duration-300 flex-1 md:w-20 opacity-100 ml-2"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
           </div>
-          {/* Logout button, overlapping the colored background */}
+          
+          {/* Logout button */}
           {user && (
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className={`bg-[#1a2c48] text-white rounded-lg py-2 font-semibold shadow hover:bg-[#223a5f] transition -ml-10 z-10 min-w-[80px] text-center px-2 sm:px-4 ${
+              className={`bg-[#1a2c48] text-white rounded-lg py-2 font-semibold shadow hover:bg-[#223a5f] transition -ml-6 md:-ml-10 z-10 min-w-[70px] md:min-w-[80px] text-center px-2 sm:px-4 ${
                 isLoggingOut ? "opacity-75 cursor-not-allowed" : ""
               }`}
-              style={{ minWidth: 100, textAlign: "center" }}
+              style={{ minWidth: 70, textAlign: "center" }}
             >
               {isLoggingOut ? "Logging out..." : "Logout"}
             </button>

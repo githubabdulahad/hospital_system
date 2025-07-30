@@ -7,9 +7,13 @@ import {
   FaUserMd,
   FaPlus,
   FaTimes,
+  FaUser,
+  FaBuilding,
 } from "react-icons/fa";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import NewAppointmentModal from "../../../components/compafterlogin/Patient/NewAppointmentModal";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaUserDoctor } from "react-icons/fa6";
 
 const appointmentData = [
   {
@@ -229,29 +233,49 @@ const PatientAppointmentList = () => {
       }}
     >
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
-          <FaCalendarAlt className="w-7 h-7 text-blue-500 mr-3" />
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              Appointment List
-            </h1>
-            <p className="text-gray-600 mt-1">
-              View and manage your appointments
-            </p>
+      <div className="mb-6">
+        {/* Mobile view */}
+        <div className="flex flex-col md:hidden">
+          <div className="flex items-center mb-1">
+            <FaCalendarAlt className="w-7 h-7 text-blue-500 mr-3" />
+            <h1 className="text-2xl font-bold text-gray-800">Appointment List</h1>
           </div>
+          <span className="text-sm text-gray-600 mb-2">
+            View and manage your appointments
+          </span>
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-[#0B2443] hover:bg-blue-900 text-white w-1/2 px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
+          >
+            <FaPlus className="w-4 h-4" />
+            Apply For Appointment
+          </button>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-[#0B2443] hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
-        >
-          <FaPlus className="w-4 h-4" />
-          Apply For Appointment
-        </button>
+        {/* Desktop view */}
+        <div className="hidden md:flex justify-between items-center">
+          <div className="flex items-center">
+            <FaCalendarAlt className="w-7 h-7 text-blue-500 mr-3" />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Appointment List
+              </h1>
+              <p className="text-gray-600 mt-1">
+                View and manage your appointments
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-[#0B2443] hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg"
+          >
+            <FaPlus className="w-4 h-4" />
+            Apply For Appointment
+          </button>
+        </div>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard
             icon={stat.icon}
@@ -263,7 +287,7 @@ const PatientAppointmentList = () => {
       </div>
 
       {/* Appointments Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-6">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -333,6 +357,45 @@ const PatientAppointmentList = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile layout */}
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Appointment List</h1>
+                    <div className="grid  grid-cols-2 gap-4">
+                                    {filteredData.length === 0 ? (
+                                      <div className="text-center text-gray-500 py-8">
+                                        <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                        <p>No record found.</p>
+                                      </div>
+                                    ) : (
+                                      filteredData.map((data) => (
+                                        <GenericCard
+                                          key={data.id}
+                                          data={data}
+                                          hospitalFields={[
+                                         {
+                                           key: "patient",
+                                           icon: <FaUser />,
+                                         },
+                                         {
+                                           key: "doctor",
+                                           icon: <FaUserDoctor />,
+                                         },
+                                         
+                                         {
+                                           key: "date",
+                                           icon: <FaCalendarAlt />,
+                                         },
+                                       ]}
+                                       personalFields={[
+                                         { key: "status", icon: <FaClock /> },
+                                         { key: "department", icon: <FaBuilding /> },
+                                       ]}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                  </div>
 
       {/* Apply for Appointment Modal */}
       {showModal && (

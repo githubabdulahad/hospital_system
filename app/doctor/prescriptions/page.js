@@ -7,6 +7,9 @@ import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import AddEditPrescription from "../../../components/compafterlogin/Doctor/Add&EditPrescription";
 import DeletePrescription from "../../../components/compafterlogin/Doctor/DeletePrescriptionModal";
 import ViewPrescription from "../../../components/compafterlogin/Doctor/Viewprescription";
+import { FaCalendarAlt, FaCheck, FaClipboard, FaClipboardList, FaEdit, FaEye, FaTrash, FaUser } from "react-icons/fa";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaPenClip } from "react-icons/fa6";
 
 const Prescriptions = () => {
   const [prescriptions, setPrescriptions] = useState([
@@ -306,13 +309,13 @@ const Prescriptions = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex gap-10  md:items-center md:justify-between md:mb-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Filter by Status</label>
           <select
@@ -336,7 +339,8 @@ const Prescriptions = () => {
       </div>
 
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Prescription ID", key: "prescriptionId" },
           { label: "Patient", key: "patientName" },
@@ -399,6 +403,64 @@ const Prescriptions = () => {
           },
         ]}
       />
+      </div>
+
+      <div className="block md:hidden">
+              <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Prescriptions </h1>
+              <div className="grid  grid-cols-2 gap-4">
+                              {prescriptions.length === 0 ? (
+                                <div className="text-center text-gray-500 py-8">
+                                  <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                  <p>No record found.</p>
+                                </div>
+                              ) : (
+                                prescriptions.map((prescription) => (
+                                  <GenericCard
+                                    key={prescription.id}
+                                    data={prescription}
+                                    hospitalFields={[
+                                   {
+                                     key: "patientName",
+                                     icon: <FaUser />,
+                                   },
+                                   {
+                                     key: "prescriptionId",
+                                     icon: <FaClipboard />,
+                                   },
+                                    {
+                                      key: 'status',
+                                      icon: <FaCheck />,
+                                    },
+                                 ]}
+                                 personalFields={[
+                                   { key: "prescribedDate", icon: <FaCalendarAlt /> },
+                                   { key: "followUpDate", icon: <FaCalendarAlt /> },
+                                ]}
+                                    actions={[
+                                      {
+                                        label: "View",
+                                        icon: <FaEye className="w-3 h-3" />,
+                                        color: "text-[#0B2443] ",
+                                        onClick: handleViewPrescription,
+                                      },
+                                      {
+                                        label: "Edit",
+                                        icon: <FaEdit className="w-3 h-3" />,
+                                        color: "text-gray-800",
+                                        onClick: handleEditPrescription,
+                                      },
+                                      {
+                                        label: "Delete",
+                                        icon: <FaTrash className="w-3 h-3" />,
+                                        color: "text-red-600",
+                                        onClick: handleDeletePrescription,
+                                      }
+                                    ]}
+                                  />
+                                ))
+                              )}
+                            </div>
+            </div>
 
       {/* Prescription Detail Modal */}
       {showPrescriptionModal  && (

@@ -28,66 +28,68 @@ const Appointmentform = () => {
 
   return (
     <div
-      className="flex justify-center items-center py-4 sm:py-8 md:py-12 px-1 sm:px-2 md:px-8 bg-gray-100 min-h-screen"
+      className="flex justify-center items-center py-4 sm:py-8 md:py-12 px-2 sm:px-4 md:px-8 bg-gray-100 min-h-screen"
       style={{
         fontFamily:
           "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'",
       }}
     >
-      <div className="bg-[#E9E6E4] rounded-lg shadow-xl overflow-hidden flex flex-col lg:flex-row w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-6xl mx-auto">
+      <div className="bg-[#E9E6E4] rounded-lg shadow-xl overflow-hidden flex flex-col lg:flex-row w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto">
         {/* Left Section: Booking Form */}
-        <div className="p-2 sm:p-4 md:p-6 lg:w-1/2 xl:w-[620px] text-[#0B2443] flex flex-col justify-center w-full">
-          <h2 className="text-base sm:text-lg md:text-2xl font-bold mb-3 sm:mb-4">Book An Appointment</h2>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-4 mb-3 sm:mb-4">
-            <p className="text-[#0B2443] text-xs sm:text-sm">
+        <div className="p-4 sm:p-6 md:p-8 lg:w-1/2 xl:w-[620px] text-[#0B2443] flex flex-col justify-center w-full">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center lg:text-left">
+            Book An Appointment
+          </h2>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <p className="text-[#0B2443] text-sm sm:text-base text-center sm:text-left">
               If you are an existing patient, please log in to the patient portal.
             </p>
-            <button className="bg-[#0B2443] text-white font-normal py-2 px-4 rounded-md text-xs sm:text-sm transition duration-300 ease-in-out whitespace-nowrap">
+            <button className="bg-[#0B2443] text-white font-medium py-2 px-6 rounded-md text-sm transition duration-300 ease-in-out whitespace-nowrap w-auto">
               Sign In
             </button>
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-3 sm:mb-4">
+            <div className="mb-4 sm:mb-6">
               <label
                 htmlFor="consultationType"
-                className="block text-[#0B2443] text-xs sm:text-sm font-semibold mb-2"
+                className="block text-[#0B2443] text-sm sm:text-base font-semibold mb-3"
               >
                 Consultation Type
               </label>
-              <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className="flex flex-row gap-3">
                 <button
                   type="button"
                   onClick={() => setConsultationType("online")}
-                  className={`py-2 px-3 sm:px-5 rounded-full text-xs sm:text-sm font-medium transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500
+                  className={`py-1 px-2 sm:py-3 sm:px-6 rounded-full text-sm font-medium transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 w-auto
                     ${
                       consultationType === "online"
                         ? "bg-[#0B2443] text-white shadow"
                         : "bg-[#FFFFFF] text-[#0B2443] hover:bg-gray-300"
                     }`}
                 >
-                  <span className="mr-1">•</span> Online
+                  <span className="mr-0.5">•</span> Online
                 </button>
                 <button
                   type="button"
                   onClick={() => setConsultationType("in-person")}
-                  className={`py-2 px-3 sm:px-5 rounded-full text-xs sm:text-sm font-medium transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500
-                    ${
+                  className={`py-1 px-2 sm:py-3 sm:px-6 rounded-full text-sm font-medium transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 w-auto
+                    ${  
                       consultationType === "in-person"
                         ? "bg-[#0B2443] text-white shadow"
                         : "bg-[#FFFFFF] text-[#0B2443] hover:bg-gray-300"
                     }`}
                 >
-                  <span className="mr-1">•</span> In-Person
+                  <span className="mr-0.5">•</span> In-Person
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6">
-              <div className="mb-2 sm:mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+              <div className="mb-2 sm:mb-4">
                 <input
                   type="text"
-                  className="appearance-none border border-[#0B2443] rounded-md w-full py-2 sm:py-3.5 px-3 sm:px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-xs sm:text-sm"
+                  className="appearance-none border border-[#0B2443] rounded-md w-full py-2 sm:py-4 px-4 text-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-sm"
                   id="name"
                   placeholder="Enter Name"
                   value={name}
@@ -95,10 +97,10 @@ const Appointmentform = () => {
                   required
                 />
               </div>
-              <div className="mb-2 sm:mb-3">
+              <div className="mb-2 sm:mb-4">
                 <input
                   type="email"
-                  className="appearance-none border border-[#0B2443] rounded-md w-full py-2 sm:py-3.5 px-3 sm:px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-xs sm:text-sm"
+                  className="appearance-none border border-[#0B2443] rounded-md w-full py-2 sm:py-4 px-4 text-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-sm"
                   id="email"
                   placeholder="Enter Email"
                   value={email}
@@ -106,10 +108,10 @@ const Appointmentform = () => {
                   required
                 />
               </div>
-              <div className="mb-2 sm:mb-3">
+              <div className="mb-2 sm:mb-4">
                 <input
                   type="tel"
-                  className="appearance-none border border-[#0B2443] rounded-md w-full py-2 sm:py-3.5 px-3 sm:px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-xs sm:text-sm"
+                  className="appearance-none border border-[#0B2443] rounded-md w-full py-2 sm:py-4 px-4 text-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-sm"
                   id="phone"
                   placeholder="Enter Phone"
                   value={phone}
@@ -117,10 +119,10 @@ const Appointmentform = () => {
                   required
                 />
               </div>
-              <div className="mb-2 sm:mb-3">
+              <div className="mb-2 sm:mb-4">
                 <div className="relative">
                   <select
-                    className="block appearance-none w-full bg-[#E9E6E4] border border-[#0B2443] rounded-md py-2 sm:py-3.5 px-3 sm:px-4 pr-8 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-gray-400 text-xs sm:text-sm"
+                    className="block appearance-none w-full bg-[#E9E6E4] border border-[#0B2443] rounded-md py-2 sm:py-4 px-4 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-gray-600 text-sm"
                     id="location"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -133,9 +135,9 @@ const Appointmentform = () => {
                     <option value="Karachi">Karachi</option>
                     <option value="Lahore">Lahore</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
                     <svg
-                      className="fill-current h-4 w-4"
+                      className="fill-current h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                     >
@@ -145,19 +147,21 @@ const Appointmentform = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-2 sm:mb-3 mt-3 sm:mt-4">
+
+            <div className="mb-4 sm:mb-6">
               <textarea
-                className="appearance-none border border-gray-700 rounded-md w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-xs sm:text-sm h-20 sm:h-28 resize-none"
+                className="appearance-none border border-gray-700 rounded-md w-full py-3 px-4 text-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-sm h-24 sm:h-32 resize-none"
                 id="condition"
                 placeholder="Please describe your condition (if known)"
                 value={condition}
                 onChange={(e) => setCondition(e.target.value)}
               ></textarea>
             </div>
-            <div className="mb-4 sm:mb-6">
+
+            <div className="mb-6 sm:mb-8">
               <div className="relative">
                 <select
-                  className="block appearance-none w-full bg-[#E9E6E4] border border-gray-800 rounded-md px-3 py-2 pr-8 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-gray-400 text-xs sm:text-sm"
+                  className="block appearance-none w-full bg-[#E9E6E4] border border-gray-800 rounded-md px-4 py-3 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent text-gray-600 text-sm"
                   id="hearAboutUs"
                   value={hearAboutUs}
                   onChange={(e) => setHearAboutUs(e.target.value)}
@@ -171,9 +175,9 @@ const Appointmentform = () => {
                   <option value="Friend/Family">Friend/Family</option>
                   <option value="Other">Other</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                   <svg
-                    className="fill-current h-4 w-4"
+                    className="fill-current h-5 w-5"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                   >
@@ -186,7 +190,7 @@ const Appointmentform = () => {
             <Commonbtn
               bgColor="bg-[#0B2443]"
               textColor="text-[#FFFFFF]"
-              className="mb-3 sm:mb-4 mt-2 w-full sm:w-auto"
+              className="mb-4 sm:mb-6 w-1/2 ml-20 sm:ml-0"
             >
               Make Appointment
             </Commonbtn>
@@ -194,34 +198,36 @@ const Appointmentform = () => {
         </div>
 
         {/* Right Section: Help Information */}
-        <div className="bg-blue-50 text-[#FFFFFF] lg:w-1/2 flex flex-col justify-center w-full min-h-[220px] sm:min-h-[300px] md:min-h-[500px] lg:min-h-[656px]">
+        <div className="bg-blue-50 text-[#FFFFFF] lg:w-1/2 flex flex-col justify-center w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[656px]">
           <div
-            className="relative bg-cover bg-center flex flex-col justify-center p-2 sm:p-6 md:p-8 h-full w-full"
+            className="relative bg-cover bg-center flex flex-col justify-center p-6 sm:p-8 md:p-12 h-full w-full"
             style={{ backgroundImage: `url(/images/Appointmentimages/image2.png)` }}
           >
             {/* Overlay */}
             <div className="absolute inset-0 bg-[#0B2443] opacity-70 z-0"></div>
 
             {/* Content */}
-            <div className="relative z-10 px-2 sm:px-4 md:pl-14 w-full max-w-xs sm:max-w-[316px] mx-auto sm:mx-0">
-              <h3 className="text-base sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 md:-mt-20">
+            <div className="relative z-10 px-4 sm:px-6 md:px-8 lg:pl-14 w-full max-w-md mx-auto lg:mx-0">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 text-center lg:text-left">
                 HELP WITH YOUR BOOKING
               </h3>
-              <p className="text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base mb-6 sm:mb-8 leading-relaxed text-center lg:text-left">
                 If you need any help with making your booking then please
                 contact:
               </p>
 
-              <div className="mb-2 sm:mb-4">
-                <p className="font-semibold text-xs sm:text-sm md:text-md">Kings College Hospital</p>
+              <div className="mb-4 sm:mb-6 text-center lg:text-left">
+                <p className="font-semibold text-sm sm:text-base md:text-lg">Kings College Hospital</p>
               </div>
-              <div className="flex items-center mb-4 sm:mb-6 mt-2">
-                <img src="/images/Appointmentimages/iconimage1.png" alt="" className="h-5 w-5 sm:h-7 sm:w-7 mr-2 sm:mr-4"/>
-                <p className="font-semibold text-base sm:text-xl">97148007777</p>
+              
+              <div className="flex items-center justify-center lg:justify-start mb-6 sm:mb-8">
+                <img src="/images/Appointmentimages/iconimage1.png" alt="" className="h-6 w-6 sm:h-8 sm:w-8 mr-3 sm:mr-4"/>
+                <p className="font-semibold text-lg sm:text-xl md:text-2xl">97148007777</p>
               </div>
-              <div className="mt-4 sm:mt-8 md:mt-12">
-                <p className="font-bold text-base sm:text-xl mb-1">For Emergency Cases</p>
-                <p className="text-base sm:text-xl font-bold">24 Hours Available</p>
+              
+              <div className="text-center lg:text-left">
+                <p className="font-bold text-base sm:text-lg md:text-xl mb-2">For Emergency Cases</p>
+                <p className="text-base sm:text-lg md:text-xl font-bold">24 Hours Available</p>
               </div>
             </div>
           </div>

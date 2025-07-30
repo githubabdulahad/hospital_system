@@ -54,7 +54,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-6">
           <StatCard icon={statData[0].icon} stat={statData[0].stat} label={statData[0].label} />
           <StatCard icon={statData[1].icon} stat={statData[1].stat} label={statData[1].label} />
           <StatCard icon={statData[2].icon} stat={statData[2].stat} label={statData[2].label} />
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
             <h2 className="text-xl font-bold text-[#0B2443]">Management Tools</h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button 
                 onClick={() => router.push('/admin/users')}
                 className="flex flex-col items-center p-4 rounded-xl  hover:from-blue-100 hover:to-blue-200 transition-all duration-300 group"

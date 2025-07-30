@@ -2,9 +2,11 @@
 import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { SearchContext } from '../../../components/Context/SearchContext';
-import { FaCalendarAlt, FaClock, FaUserMd, FaMapMarkerAlt, FaEye, FaPlus, FaFilter } from 'react-icons/fa';
+import { FaCalendarAlt, FaClock, FaUserMd, FaMapMarkerAlt, FaEye, FaPlus, FaFilter, FaUser, FaPhone } from 'react-icons/fa';
 import StatCard from '../../../components/compafterlogin/Common/StatCard';
 import AppointmentDetailsModal from '../../../components/compafterlogin/Patient/AppointmenDetailsModal';
+import GenericCard from '../../../components/compafterlogin/Common/GenericCard';
+import { FaUserDoctor } from 'react-icons/fa6';
 
 // Enhanced appointment data with more details
 const appointmentData = [
@@ -24,7 +26,7 @@ const appointmentData = [
   {
     id: 2,
     date: '2025-07-25',
-    time: '02:15 PM',
+    time: '03:15 PM',
     doctor: 'Dr. Michael Chen',
     department: 'Orthopedics',
     type: 'Consultation',
@@ -49,7 +51,7 @@ const appointmentData = [
   },
   {
     id: 4,
-    date: '2025-06-10',
+    date: '2025-08-10',
     time: '11:45 AM',
     doctor: 'Dr. Ahmed Rahman',
     department: 'Neurology',
@@ -196,32 +198,61 @@ const PatientAppointments = () => {
   return (
     <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <span className="text-2xl mr-2">
-            <FaCalendarAlt className="w-7 h-7 text-blue-500" />
+      <div className="mb-6">
+        {/* Mobile view */}
+        <div className="flex flex-col md:hidden">
+          <div className="flex items-center mb-1">
+            <span className="text-2xl mr-2">
+              <FaCalendarAlt className="w-7 h-7 text-blue-500" />
+            </span>
+            <h1 className="text-2xl font-bold text-gray-800">My Appointments</h1>
+          </div>
+          <span className="text-sm text-gray-600 md:mt-0 md:mb-0 mb-3 mt-3">
+            Manage your medical appointments
           </span>
-          <h1 className="text-2xl font-bold text-gray-800">My Appointments</h1>
-          <span className="ml-3 text-sm text-gray-600">Manage your medical appointments</span>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setShowCalendar(!showCalendar)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                showCalendar ? 'bg-[#C0e6DA] text-[#0B2443]' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {showCalendar ? 'List View' : 'Calendar View'}
+            </button>
+            <button onClick={() => router.push('/patient/appointment-list')} className="bg-[#0B2443] hover:bg-blue-950 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+              <FaPlus className="w-4 h-4" />
+              Book Appointment
+            </button>
+          </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={() => setShowCalendar(!showCalendar)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              showCalendar ? 'bg-[#C0e6DA] text-[#0B2443]' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            {showCalendar ? 'List View' : 'Calendar View'}
-          </button>
-          <button onClick={() => router.push('/patient/appointment-list')} className="bg-[#0B2443] hover:bg-blue-950 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
-            <FaPlus className="w-4 h-4" />
-            Book Appointment
-          </button>
+        {/* Desktop view */}
+        <div className="hidden md:flex items-center justify-between">
+          <div className="flex items-center">
+            <span className="text-2xl mr-2">
+              <FaCalendarAlt className="w-7 h-7 text-blue-500" />
+            </span>
+            <h1 className="text-2xl font-bold text-gray-800">My Appointments</h1>
+            <span className="ml-3 text-sm text-gray-600">Manage your medical appointments</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setShowCalendar(!showCalendar)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                showCalendar ? 'bg-[#C0e6DA] text-[#0B2443]' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {showCalendar ? 'List View' : 'Calendar View'}
+            </button>
+            <button onClick={() => router.push('/patient/appointment-list')} className="bg-[#0B2443] hover:bg-blue-950 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+              <FaPlus className="w-4 h-4" />
+              Book Appointment
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
                   <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                 ))}
@@ -358,7 +389,7 @@ const PatientAppointments = () => {
         </div>
 
         {/* Appointments List */}
-        <div className="p-6">
+        <div className="p-6 md:block hidden">
           {filteredAppointments.length === 0 ? (
             <div className="text-center py-8">
               <FaCalendarAlt className="w-16 h-16 mx-auto text-gray-300 mb-4" />
@@ -418,6 +449,53 @@ const PatientAppointments = () => {
             </div>
           )}
         </div>
+
+        {/* Mobile Appointments List */}
+        <div className="block md:hidden">
+                      <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Operation History</h1>
+                      <div className="grid  grid-cols-2 gap-4">
+                                      {filteredAppointments.length === 0 ? (
+                                        <div className="text-center text-gray-500 py-8">
+                                          <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                          <p>No appointments found.</p>
+                                        </div>
+                                      ) : (
+                                        filteredAppointments.map((appointment) => (
+                                          <GenericCard
+                                            key={appointment.id}
+                                            data={appointment}
+                                            hospitalFields={[
+                                              {
+                                                key: "doctor",
+                                                icon: <FaUserDoctor />,
+                                              },
+                                           {
+                                             key: "time",
+                                             icon: <FaClock />,
+                                           },
+                                           {
+                                             key: "date",
+                                             icon: <FaCalendarAlt />,
+                                           },
+                                         ]}
+                                         personalFields={[
+                                           { key: "phone", icon: <FaPhone /> },
+                                           { key: "location", icon: <FaMapMarkerAlt /> },
+                                        ]}
+                                            actions={[
+                                              {
+                                                label: "View",
+                                                icon: <FaEye className="w-3 h-3" />,
+                                                color: "text-[#0B2443] ",
+                                                onClick: handleViewAppointment,
+                                              }
+                                            ]}
+                                          />
+                                        ))
+                                      )}
+                                    </div>
+                    </div> 
+                    
       </div>
       {/* Appointment Details Modal */}
       {showModal && selectedAppointment && (

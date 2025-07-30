@@ -14,8 +14,10 @@ import {
   FaEye,
   FaIndustry,
   FaDollarSign,
+  FaClipboard,
 } from "react-icons/fa";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
 
 const medicinesData = [
   {
@@ -205,14 +207,14 @@ export default function PharmaManageMedicine() {
       }}
     >
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 flex-wrap">
         <div className="flex items-center">
           <FaPills className="w-7 h-7 text-[#0B2443] mr-3" />
           <div>
             <h1 className="text-2xl font-bold text-gray-800">
               Medicine Management
             </h1>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 mt-1 block md:inline">
               Manage pharmacy medicine inventory and stock
             </p>
           </div>
@@ -227,7 +229,7 @@ export default function PharmaManageMedicine() {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard
             key={index}
@@ -239,7 +241,7 @@ export default function PharmaManageMedicine() {
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="hidden md:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="py-6 px-3">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -356,6 +358,65 @@ export default function PharmaManageMedicine() {
           </div>
         </div>
       </div>
+
+      <div className="md:hidden">
+
+      </div> <div className="block md:hidden">
+                          <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                            Medicine Management
+                          </h1>
+                          <div className="grid md:hidden grid-cols-2 gap-4">
+                            {filteredMedicines.length === 0 ? (
+                              <div className="text-center text-gray-500 py-8">
+                                <FaUserMd className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                <p>No medicines found.</p>
+                              </div>
+                            ) : (
+                              filteredMedicines.map((medicine) => (
+                                <GenericCard
+                                  key={medicine.id}
+                                  data={medicine}
+                                  hospitalFields={[
+                                    {
+                                      key: "name",
+                                      icon: <FaPills />,
+                                    },
+                                    {
+                                      key: "description",
+                                      icon: <FaClipboard />,
+                                    },
+                                    {
+                                      key: "medicalCategory",
+                                      icon: <FaClipboard />,
+                                    }
+                                  ]}
+                                  personalFields={[
+                                    { key: "totalQuantity", icon: <FaPills /> },
+
+                                    {
+                                      key: "manufacturingCompany",
+                                      icon:<FaIndustry />
+                                    }
+                                  ]}
+                                  actions={[
+                                    {
+                                      label: "Edit",
+                                      icon: <FaEdit className="w-3 h-3" />,
+                                      color: "text-[#0B2443]",
+                                      onClick: handleEdit,
+                                    },
+                                    {
+                                      label: "Delete",
+                                      icon: <FaTrash className="w-3 h-3" />,
+                                      color: "text-red-600",
+                                      onClick: handleDelete,
+                                    },
+                                  ]}
+                                />
+                              ))
+                            )}
+                          </div>
+                        </div>
 
       {/* Modals */}
       <AddMedicineModal

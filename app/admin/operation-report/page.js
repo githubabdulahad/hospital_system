@@ -4,6 +4,9 @@ import { SearchContext } from "../../../components/Context/SearchContext";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import { FaClock, FaDownload, FaHospital, FaPrint, FaStethoscope, FaUser } from "react-icons/fa";
+import { FaBuilding, FaVenusMars } from "react-icons/fa6";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
 
 const OperationReport = () => {
   const { search } = useContext(SearchContext);
@@ -448,7 +451,7 @@ const OperationReport = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
       {statData.map((stat, index) => (
                 <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
               ))}
@@ -487,7 +490,8 @@ const OperationReport = () => {
         </div>
       </div>
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Operation ID", key: "operationId" },
           { label: "Patient", key: "patientName" },
@@ -527,6 +531,47 @@ const OperationReport = () => {
           },
         ]}
       />
+      </div>
+
+            <div className="block md:hidden">
+                          <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+                            Operation Record List
+                          </h1>
+                          <div className="grid  grid-cols-2 gap-4">
+                            {filteredOperations.length === 0 ? (
+                              <div className="text-center text-gray-500 py-8">
+                                <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                <p>No Reports found.</p>
+                              </div>
+                            ) : (
+                              filteredOperations.map((report) => (
+                                <GenericCard
+                                  key={report.id}
+                                  data={report}
+                                  hospitalFields={[
+                                    { key: "operationType", icon: <FaHospital /> },
+                                    { key: "surgeonName", icon: <FaStethoscope /> },
+                                    { key: "status", icon: <FaClock /> },
+                                    
+                                  ]}
+                                  personalFields={[
+                                    { key: "patientName", icon: <FaUser /> },
+                                    { key: "operationDate", icon: <FaClock /> },
+                                    { key: "operationRoom", icon: <FaStethoscope /> },
+                                  ]}
+                                  actions={[
+                                    {
+                                      label: "Print Report",
+                                      icon: <FaDownload className="w-4 h-4" />,
+                                      color: "text-[#0b2443]",
+                                      onClick: handlePrintReport,
+                                    }
+                                  ]}
+                                />
+                              ))
+                            )}
+                          </div>
+                        </div>
 
       <Toast
         message={toast.message}

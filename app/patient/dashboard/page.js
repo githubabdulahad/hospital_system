@@ -55,7 +55,7 @@ export default function PatientDashboard() {
         </div>
         
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
           {statData.map((stat, index) => (
             <div key={index} onClick={() => {
               if (index === 0) router.push('/patient/appointments');
@@ -77,7 +77,7 @@ export default function PatientDashboard() {
             <h2 className="text-xl font-bold text-[#0B2443]">Quick Actions</h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button 
                 onClick={() => router.push('/patient/appointments')}
                 className="flex flex-col items-center p-4 rounded-xl bg-gradient-to-br  hover:from-blue-100 hover:to-blue-200 transition-all duration-300 group"

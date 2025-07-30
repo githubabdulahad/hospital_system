@@ -34,7 +34,7 @@ const specialities = [
 export default function SpecialitiesComp() {
   return (
     <section className="max-w-6xl mx-auto py-10 px-4 mb-12">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
+      <div className="flex flex-col text-center md:text-left md:flex-row md:justify-between md:items-center mb-8 gap-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
         <div>
           <h4 className="text-base text-[#0B2443] mb-1 font-semibold">Need Professional Help?</h4>
           <h2 className="text-3xl font-bold mb-2">Our Specialties</h2>
@@ -42,8 +42,8 @@ export default function SpecialitiesComp() {
             Contact us any suitable way and make an appointment with the doctor whose help you need! Visit us at the scheduled time.
           </p>
         </div>
-        <div className="flex items-center gap-4 sm:justify-between">
-          <button className="group relative font-bold text-[#0B2443] mr-3 flex items-centerfocus:outline-none">
+        <div className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-4 sm:justify-between">
+          <button className="group relative font-bold text-[#0B2443] md:mr-3 flex items-center focus:outline-none">
             <span>More Service</span>
             <FaChevronRight className="ml-2 text-base" />
             <span

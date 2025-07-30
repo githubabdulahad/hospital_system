@@ -7,6 +7,9 @@ import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import ShowApptDetail from "../../../components/compafterlogin/Doctor/ShowApptDetail";
 import AddEditApptModal from "../../../components/compafterlogin/Doctor/Add&EditApptModal";
 import DeleteApptModal from "../../../components/compafterlogin/Doctor/DeleteApptModal";
+import { FaCalendar, FaCheck, FaClock, FaEdit, FaEye, FaTrash, FaUser } from "react-icons/fa";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaMapLocation } from "react-icons/fa6";
 
 const AppointmentList = () => {
   const [appointments, setAppointments] = useState([
@@ -349,14 +352,14 @@ const AppointmentList = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">      
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">      
 {statData.map((stat, index) => (
           <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
         ))}
       </div>
 
       {/* Today's Schedule */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 mb-6">
+      <div className="hidden md:block bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 mb-6">
         <h3 className="text-lg font-semibold text-gray-700 mb-3">Today's Schedule ({todaysAppointments.length} appointments)</h3>
         <div className="space-y-2">
           {todaysAppointments.length > 0 ? (
@@ -434,7 +437,8 @@ const AppointmentList = () => {
 </div>
 
 
-      <CommonTable
+      <div className="hidden md:block">
+        <CommonTable
         columns={[
           { label: "Appointment ID", key: "appointmentId" },
           { label: "Patient", key: "patientName" },
@@ -506,6 +510,64 @@ const AppointmentList = () => {
           },
         ]}
       />
+      </div>
+
+      <div className="block md:hidden">
+                    <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Appointment List </h1>
+                    <div className="grid  grid-cols-2 gap-4">
+                                    {filteredAppointments.length === 0 ? (
+                                      <div className="text-center text-gray-500 py-8">
+                                        <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                        <p>No record found.</p>
+                                      </div>
+                                    ) : (
+                                      filteredAppointments.map((appointment) => (
+                                        <GenericCard
+                                          key={appointment.id}
+                                          data={appointment}
+                                          hospitalFields={[
+                                         {
+                                           key: "patientName",
+                                           icon: <FaUser />,
+                                         },
+                                         {
+                                           key: "appointmentDate",
+                                           icon: <FaCalendar />,
+                                         },
+                                          {
+                                            key: 'appointmentTime',
+                                            icon: <FaClock />,
+                                          },
+                                       ]}
+                                       personalFields={[
+                                         { key: "status", icon: <FaCheck /> },
+                                         { key: "room", icon: <FaMapLocation /> },
+                                      ]}
+                                          actions={[
+                                            {
+                                              label: "View",
+                                              icon: <FaEye className="w-3 h-3" />,
+                                              color: "text-blue-600",
+                                              onClick: handleViewAppointment,
+                                            },
+                                            {
+                                              label: "Edit",
+                                              icon: <FaEdit className="w-3 h-3" />,
+                                              color: "text-gray-800",
+                                              onClick: handleEditAppointment,
+                                            },
+                                            {
+                                              label: "Delete",
+                                              icon: <FaTrash className="w-3 h-3" />,
+                                              color: "text-red-600",
+                                              onClick: handleDeleteAppointment,
+                                            }
+                                          ]}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                  </div>
 
       {/* Appointment Detail Modal */}
       {showAppointmentModal && selectedAppointment && (

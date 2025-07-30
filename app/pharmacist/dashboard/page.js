@@ -55,7 +55,7 @@ icon:<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" vi
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
           {statData.map((stat, index) => (
             <StatCard key={index} icon={stat.icon} stat={stat.stat} label={stat.label} />
           ))}
@@ -67,7 +67,7 @@ icon:<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" vi
             <h2 className="text-xl font-bold text-[#0B2443]">Quick Actions</h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button 
                 onClick={() => router.push('/pharmacist/manage-medicine')}
                 className="flex flex-col items-center p-4 rounded-xl bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all duration-300 group"

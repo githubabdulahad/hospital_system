@@ -5,7 +5,10 @@ import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import Toast from "../../../components/compafterlogin/Common/Toast";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import Viewpayment from "../../../components/compafterlogin/Admin/Viewpayment";
-
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaBuilding, FaCalendarAlt, FaClock, FaDollarSign, FaEnvelope, FaPhone, FaUser, FaUserGraduate, FaVenusMars } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaU } from "react-icons/fa6";
 
 const PaymentHistory = () => {
   const { search } = useContext(SearchContext);
@@ -88,32 +91,39 @@ const PaymentHistory = () => {
     },
   ]);
 
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
   const [filterStatus, setFilterStatus] = useState("All");
   const [filterPaymentMethod, setFilterPaymentMethod] = useState("All");
-  
+
   // New state for modals
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null);
 
   const filteredPayments = payments.filter((payment) => {
-    const matchesSearch = 
+    const matchesSearch =
       payment.patientName.toLowerCase().includes(search.toLowerCase()) ||
       payment.billNumber.toLowerCase().includes(search.toLowerCase()) ||
       payment.doctorName.toLowerCase().includes(search.toLowerCase()) ||
       payment.department.toLowerCase().includes(search.toLowerCase()) ||
       payment.transactionId.toLowerCase().includes(search.toLowerCase());
-    
-    const matchesStatus = filterStatus === "All" || payment.status === filterStatus;
-    const matchesPaymentMethod = filterPaymentMethod === "All" || payment.paymentMethod === filterPaymentMethod;
-    
+
+    const matchesStatus =
+      filterStatus === "All" || payment.status === filterStatus;
+    const matchesPaymentMethod =
+      filterPaymentMethod === "All" ||
+      payment.paymentMethod === filterPaymentMethod;
+
     return matchesSearch && matchesStatus && matchesPaymentMethod;
   });
 
   const onclose = () => {
     setShowViewModal(false);
     setSelectedPayment(null);
-  }
+  };
 
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });
@@ -130,18 +140,22 @@ const PaymentHistory = () => {
       Failed: "bg-red-100 text-red-800",
       Refunded: "bg-blue-100 text-blue-800",
     };
-    
+
     return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusStyles[status] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 text-xs font-medium rounded-full ${
+          statusStyles[status] || "bg-gray-100 text-gray-800"
+        }`}
+      >
         {status}
       </span>
     );
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
@@ -153,7 +167,7 @@ const PaymentHistory = () => {
 
   // Updated handleDownloadReceipt function
   const handleDownloadReceipt = (payment) => {
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
@@ -260,7 +274,9 @@ const PaymentHistory = () => {
             <div class="receipt-info">
               <h2>Receipt #${payment.billNumber}</h2>
               <p><strong>Transaction ID:</strong> ${payment.transactionId}</p>
-              <p><strong>Date:</strong> ${new Date(payment.paymentDate).toLocaleDateString()}</p>
+              <p><strong>Date:</strong> ${new Date(
+                payment.paymentDate
+              ).toLocaleDateString()}</p>
               
               <div class="info-grid">
                 <div>
@@ -293,7 +309,9 @@ const PaymentHistory = () => {
                   <div class="info-item">
                     <span class="info-label">Status:</span>
                     <span class="info-value">
-                      <span class="status-badge status-${payment.status.toLowerCase()}">${payment.status}</span>
+                      <span class="status-badge status-${payment.status.toLowerCase()}">${
+      payment.status
+    }</span>
                     </span>
                   </div>
                 </div>
@@ -320,32 +338,80 @@ const PaymentHistory = () => {
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
-    showToast(`Receipt for ${payment.billNumber} downloaded successfully`, "success");
+    showToast(
+      `Receipt for ${payment.billNumber} downloaded successfully`,
+      "success"
+    );
   };
 
   const totalRevenue = filteredPayments
-    .filter(p => p.status === "Completed")
+    .filter((p) => p.status === "Completed")
     .reduce((sum, payment) => sum + payment.amount, 0);
 
   const pendingAmount = filteredPayments
-    .filter(p => p.status === "Pending")
+    .filter((p) => p.status === "Pending")
     .reduce((sum, payment) => sum + payment.amount, 0);
 
   const statData = [
-    { 
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-green-600"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" /></svg>,
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-8 h-8 text-green-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+          />
+        </svg>
+      ),
       stat: formatCurrency(totalRevenue),
-      label: "Total Revenue"
+      label: "Total Revenue",
     },
     {
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-yellow-600"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-yellow-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      ),
       stat: formatCurrency(pendingAmount),
-      label: "Pending Payments"
+      label: "Pending Payments",
     },
     {
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-blue-600"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 text-blue-600"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      ),
       stat: filteredPayments.length,
-      label: "Total Transactions"
+      label: "Total Transactions",
     },
   ];
 
@@ -374,20 +440,29 @@ const PaymentHistory = () => {
             />
           </svg>
         </span>
-        <h2 className="text-3xl font-semibold text-[#0B2443]">Payment History</h2>
+        <h2 className="text-3xl font-semibold text-[#0B2443]">
+          Payment History
+        </h2>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         {statData.map((stat, index) => (
-                  <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
-                ))}
+          <StatCard
+            icon={stat.icon}
+            stat={stat.stat}
+            label={stat.label}
+            key={index}
+          />
+        ))}
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Status
+          </label>
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
@@ -402,7 +477,9 @@ const PaymentHistory = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Payment Method
+          </label>
           <select
             value={filterPaymentMethod}
             onChange={(e) => setFilterPaymentMethod(e.target.value)}
@@ -418,72 +495,156 @@ const PaymentHistory = () => {
         </div>
       </div>
 
-      <CommonTable
-        columns={[
-          { label: "Bill #", key: "billNumber" },
-          { label: "Patient", key: "patientName" },
-          { label: "Date", key: "paymentDate" },
-          { 
-            label: "Amount", 
-            key: "amount", 
-            render: (payment) => (
-              <span className="font-semibold text-green-600">
-                {formatCurrency(payment.amount)}
-              </span>
-            )
-          },
-          { label: "Method", key: "paymentMethod" },
-          { 
-            label: "Status", 
-            key: "status", 
-            render: (payment) => getStatusBadge(payment.status)
-          },
-          { label: "Service", key: "serviceType" },
-          { label: "Department", key: "department" },
-        ]}
-        data={filteredPayments}
-        actions={[
-          {
-            label: (
-              <>
-                <svg
-                  className="w-3 h-3 mr-1"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </>
-            ),
-            onClick: (payment) => handleViewDetails(payment),
-            className: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
-            title: "View Details"
-          },
-          {
-            label: (
-              <>
-                <svg
-                  className="w-3 h-3 mr-1"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </>
-            ),
-            onClick: (payment) => handleDownloadReceipt(payment),
-            className: "bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
-            title: "Download Receipt"
-          },
-        ]}
-      />
+      <div className="hidden md:block">
+        <CommonTable
+          columns={[
+            { label: "Bill #", key: "billNumber" },
+            { label: "Patient", key: "patientName" },
+            { label: "Date", key: "paymentDate" },
+            {
+              label: "Amount",
+              key: "amount",
+              render: (payment) => (
+                <span className="font-semibold text-green-600">
+                  {formatCurrency(payment.amount)}
+                </span>
+              ),
+            },
+            { label: "Method", key: "paymentMethod" },
+            {
+              label: "Status",
+              key: "status",
+              render: (payment) => getStatusBadge(payment.status),
+            },
+            { label: "Service", key: "serviceType" },
+            { label: "Department", key: "department" },
+          ]}
+          data={filteredPayments}
+          actions={[
+            {
+              label: (
+                <>
+                  <svg
+                    className="w-3 h-3 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </>
+              ),
+              onClick: (payment) => handleViewDetails(payment),
+              className:
+                "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
+              title: "View Details",
+            },
+            {
+              label: (
+                <>
+                  <svg
+                    className="w-3 h-3 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </>
+              ),
+              onClick: (payment) => handleDownloadReceipt(payment),
+              className:
+                "bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs flex items-center transition-colors",
+              title: "Download Receipt",
+            },
+          ]}
+        />
+      </div>
+
+      <div className="block md:hidden">
+        <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">
+          Payment List
+        </h1>
+        <div className="grid  grid-cols-2 gap-4">
+          {filteredPayments.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">
+              <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+              <p>No payments found.</p>
+            </div>
+          ) : (
+            filteredPayments.map((payment) => (
+              <GenericCard
+                key={payment.id}
+                data={payment}
+                hospitalFields={[
+                 {
+                   key: "patientName",
+                   icon: <FaUser />,
+                 },
+                 {
+                   key: "status",
+                   icon: <FaClock />,
+                 },
+                 {
+                   key: "department",
+                   icon: <FaBuilding />,
+                 },
+                 ]} 
+                 personalFields={[
+                { key: "amount", icon: <FaDollarSign /> },
+                { key: "paymentDate", icon: <FaCalendarAlt /> },
+                 ]}
+                actions={[
+                  {
+                    label: "View Details",
+                    icon: <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>,
+                    color: "text-blue-900",
+                    onClick: handleViewDetails,
+                  },
+                  {
+                    label: "Download Receipt",
+                    icon: (
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    ),
+                    color: "text-green-900",
+                    onClick: handleDownloadReceipt,
+                  },
+                ]}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
       {/* View Details Modal */}
-      <Viewpayment onclose={onclose} formatCurrency={formatCurrency} getStatusBadge={getStatusBadge} selectedPayment={selectedPayment} handleDownloadReceipt={handleDownloadReceipt} showViewModal={showViewModal} />
+      <Viewpayment
+        onclose={onclose}
+        formatCurrency={formatCurrency}
+        getStatusBadge={getStatusBadge}
+        selectedPayment={selectedPayment}
+        handleDownloadReceipt={handleDownloadReceipt}
+        showViewModal={showViewModal}
+      />
       <Toast
         message={toast.message}
         isVisible={toast.show}

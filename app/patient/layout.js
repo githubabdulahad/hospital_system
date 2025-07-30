@@ -1,20 +1,31 @@
 "use client";
-import Header from '../../components/compafterlogin/Common/Header';
-import PatientSidebar from '../../components/compafterlogin/Patient/PatientSidebar';
-import { usePathname } from 'next/navigation';
+import { useState } from "react";
+import Header from "../../components/compafterlogin/Common/Header";
+import PatientSidebar from "../../components/compafterlogin/Patient/PatientSidebar";
 
 export default function PatientLayout({ children }) {
-  const pathname = usePathname();
+const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+const toggleMobileMenu = () => {
+  setIsMobileMenuOpen(!isMobileMenuOpen);
+};
+
+  // Pass toggle function to Header
   return (
     <div>
-      <Header />
-      <main className="flex">
-        <PatientSidebar activeRoute={pathname} />
-        <div className="flex-1 p-4 overflow-y-auto" style={{ height: 'calc(100vh - 120px)' }}>
-          {children}
-        </div>
-      </main>
+      <Header onMobileMenuToggle={toggleMobileMenu} />{" "}
+      <main className="relative md:flex">
+  <PatientSidebar
+    isOpen={isMobileMenuOpen}
+  />
+  <div
+    className="flex-1 p-4 overflow-y-auto"
+    style={{ height: "calc(100vh - 120px)" }}
+  >
+    {children}
+  </div>
+</main>
+
     </div>
   );
 }

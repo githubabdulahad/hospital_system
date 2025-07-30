@@ -2,6 +2,8 @@
 import { useState } from "react";
 import CommonTable from "../../../components/compafterlogin/Common/CommonTable";
 import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaCalendarAlt, FaCheck, FaClock, FaTint, FaUsb, FaUser, FaVenusMars } from "react-icons/fa";
 
 const BloodBank = () => {
   const [bloodInventory] = useState([
@@ -190,7 +192,7 @@ const BloodBank = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard
             icon={stat.icon}
@@ -201,8 +203,8 @@ const BloodBank = () => {
         ))}
       </div>
 
-
-      <CommonTable
+        <div className="hidden md:block">
+          <CommonTable
         columns={[
           { 
             label: "Blood Type", 
@@ -249,8 +251,45 @@ const BloodBank = () => {
           { label: "Location", key: "location" },
         ]}
         data={bloodInventory}
-        
       />
+        </div>
+
+        <div className="block md:hidden">
+                      <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Blood Bank </h1>
+                      <div className="grid  grid-cols-2 gap-4">
+                                      {bloodInventory.length === 0 ? (
+                                        <div className="text-center text-gray-500 py-8">
+                                          <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                          <p>No record found.</p>
+                                        </div>
+                                      ) : (
+                                        bloodInventory.map((blood) => (
+                                          <GenericCard
+                                            key={blood.id}
+                                            data={blood}
+                                            hospitalFields={[
+                                           {
+                                             key: "bloodType",
+                                             icon: <FaTint />,
+                                           },
+                                           {
+                                             key: "unitsAvailable",
+                                             icon: <FaVenusMars />,
+                                           },
+                                            {
+                                              key: 'expiryDate',
+                                              icon: <FaCalendarAlt />,
+                                            },
+                                         ]}
+                                         personalFields={[
+                                           { key: "status", icon: <FaClock /> },
+                                           { key: "donorName", icon: <FaUser /> },
+                                        ]}
+                                          />
+                                        ))
+                                      )}
+                                    </div>
+                    </div>
     
     </div>
   );

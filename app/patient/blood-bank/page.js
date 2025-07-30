@@ -1,9 +1,22 @@
 "use client";
-import React, { useContext, useState } from 'react';
-import { SearchContext } from '../../../components/Context/SearchContext';
-import { FaTint, FaUser, FaCalendarAlt, FaHeart, FaEye } from 'react-icons/fa';
-import StatCard from '../../../components/compafterlogin/Common/StatCard';
-import DonorDetailModal from '../../../components/compafterlogin/Patient/DonorDetailModal';
+import React, { useContext, useState } from "react";
+import { SearchContext } from "../../../components/Context/SearchContext";
+import {
+  FaTint,
+  FaUser,
+  FaCalendarAlt,
+  FaHeart,
+  FaEye,
+  FaBuilding,
+  FaVenusMars,
+  FaEnvelope,
+  FaClock,
+  FaPhone,
+} from "react-icons/fa";
+import StatCard from "../../../components/compafterlogin/Common/StatCard";
+import DonorDetailModal from "../../../components/compafterlogin/Patient/DonorDetailModal";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaUserDoctor } from "react-icons/fa6";
 
 const initialDonors = [
   {
@@ -17,7 +30,7 @@ const initialDonors = [
     email: "mishelle.obama@email.com",
     address: "123 Main St, City",
     donationCount: 5,
-    eligibleForNext: "2024-09-15"
+    eligibleForNext: "2024-09-15",
   },
   {
     id: 2,
@@ -30,7 +43,7 @@ const initialDonors = [
     email: "john.smith@email.com",
     address: "456 Oak Ave, City",
     donationCount: 8,
-    eligibleForNext: "2024-10-10"
+    eligibleForNext: "2024-10-10",
   },
   {
     id: 3,
@@ -43,7 +56,7 @@ const initialDonors = [
     email: "sarah.johnson@email.com",
     address: "789 Pine St, City",
     donationCount: 12,
-    eligibleForNext: "2024-08-20"
+    eligibleForNext: "2024-08-20",
   },
   {
     id: 4,
@@ -56,19 +69,49 @@ const initialDonors = [
     email: "michael.chen@email.com",
     address: "321 Elm St, City",
     donationCount: 6,
-    eligibleForNext: "2024-09-30"
-  }
+    eligibleForNext: "2024-09-30",
+  },
 ];
 
 const initialStatus = [
-  { bloodGroup: "A+", available: 25, critical: false, lastUpdated: "2024-07-17" },
+  {
+    bloodGroup: "A+",
+    available: 25,
+    critical: false,
+    lastUpdated: "2024-07-17",
+  },
   { bloodGroup: "A-", available: 8, critical: true, lastUpdated: "2024-07-17" },
-  { bloodGroup: "AB+", available: 15, critical: false, lastUpdated: "2024-07-17" },
-  { bloodGroup: "AB-", available: 3, critical: true, lastUpdated: "2024-07-17" },
-  { bloodGroup: "B+", available: 18, critical: false, lastUpdated: "2024-07-17" },
+  {
+    bloodGroup: "AB+",
+    available: 15,
+    critical: false,
+    lastUpdated: "2024-07-17",
+  },
+  {
+    bloodGroup: "AB-",
+    available: 3,
+    critical: true,
+    lastUpdated: "2024-07-17",
+  },
+  {
+    bloodGroup: "B+",
+    available: 18,
+    critical: false,
+    lastUpdated: "2024-07-17",
+  },
   { bloodGroup: "B-", available: 5, critical: true, lastUpdated: "2024-07-17" },
-  { bloodGroup: "O+", available: 30, critical: false, lastUpdated: "2024-07-17" },
-  { bloodGroup: "O-", available: 12, critical: false, lastUpdated: "2024-07-17" },
+  {
+    bloodGroup: "O+",
+    available: 30,
+    critical: false,
+    lastUpdated: "2024-07-17",
+  },
+  {
+    bloodGroup: "O-",
+    available: 12,
+    critical: false,
+    lastUpdated: "2024-07-17",
+  },
 ];
 
 export default function PatientBloodBank() {
@@ -80,16 +123,20 @@ export default function PatientBloodBank() {
   const [showModal, setShowModal] = useState(false);
   const [filterBloodGroup, setFilterBloodGroup] = useState("All");
 
-  const bloodGroups = ["All", ...new Set(donors.map(donor => donor.bloodGroup))];
+  const bloodGroups = [
+    "All",
+    ...new Set(donors.map((donor) => donor.bloodGroup)),
+  ];
 
   const filteredDonors = donors.filter((donor) => {
-    const matchesSearch = 
+    const matchesSearch =
       donor.name.toLowerCase().includes(search.toLowerCase()) ||
       donor.bloodGroup.toLowerCase().includes(search.toLowerCase()) ||
       donor.phone.toLowerCase().includes(search.toLowerCase());
-    
-    const matchesBloodGroup = filterBloodGroup === "All" || donor.bloodGroup === filterBloodGroup;
-    
+
+    const matchesBloodGroup =
+      filterBloodGroup === "All" || donor.bloodGroup === filterBloodGroup;
+
     return matchesSearch && matchesBloodGroup;
   });
 
@@ -120,7 +167,7 @@ export default function PatientBloodBank() {
   const statData = [
     {
       icon: <FaUser className="w-5 h-5 text-red-600" />,
-      stat:donors.length,
+      stat: donors.length,
       label: "Total Donors",
     },
     {
@@ -134,51 +181,106 @@ export default function PatientBloodBank() {
       label: "Total Units",
     },
     {
-      icon:<span className="text-yellow-600 text-xl">⚠️</span>,
-      stat: status.filter(item => item.critical).length,
+      icon: <span className="text-yellow-600 text-xl">⚠️</span>,
+      stat: status.filter((item) => item.critical).length,
       label: "Critical Types",
-    }
-  ]
-  
+    },
+  ];
+
   return (
-    <div className="p-6" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
+    <div
+      className="p-6"
+      style={{
+        fontFamily:
+          "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'",
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center mb-6">
+      <div className="flex items-center mb-6 flex-wrap">
         <span className="text-2xl mr-2">
           <FaTint className="w-7 h-7 text-red-500" />
         </span>
         <h1 className="text-2xl font-bold text-gray-800">Blood Bank</h1>
-        <span className="ml-3 text-sm text-gray-600">Donor information and blood availability</span>
+        <span className="text-sm text-gray-600 block md:inline ml-7 md:ml-3 ">
+          Donor information and blood availability
+        </span>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
-                  <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
-                ))}
+          <StatCard
+            icon={stat.icon}
+            stat={stat.stat}
+            label={stat.label}
+            key={index}
+          />
+        ))}
+      </div>
+
+      <div className="block md:hidden">
+                      <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Blood Donors</h1>
+        <div className="grid  grid-cols-2 gap-3">
+          {filteredDonors.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">
+              <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+              <p>No donors found.</p>
+            </div>
+          ) : (
+            filteredDonors.map((donor) => (
+              <GenericCard
+                key={donor.id}
+                data={donor}
+                hospitalFields={[
+                  {
+                    key: "name",
+                    icon: <FaUser />,
+                  },
+                  {
+                    key: "bloodGroup",
+                    icon: <FaTint />,
+                  },
+                ]}
+                personalFields={[
+                  { key: "email", icon: <FaEnvelope /> },
+                  { key: "phone", icon: <FaPhone /> },
+                  { key: "age", icon: <FaClock /> },
+                ]}
+                actions={[
+                  {
+                    label: "View",
+                    icon: <FaEye className="w-3 h-3" />,
+                    color: "text-[#0B2443] ",
+                    onClick: handleViewDonor,
+                  },
+                ]}
+              />
+            ))
+          )}
+        </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
+      <div className="bg-white hidden md:block rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
         <div className="flex border-b border-gray-200">
           <button
             className={`px-6 py-3 font-medium text-sm ${
-              tab === 'donors' 
-                ? 'border-b-2 border-red-500 text-red-600 bg-red-50' 
-                : 'text-gray-500 hover:text-gray-700'
+              tab === "donors"
+                ? "border-b-2 border-red-500 text-red-600 bg-red-50"
+                : "text-gray-500 hover:text-gray-700"
             }`}
-            onClick={() => setTab('donors')}
+            onClick={() => setTab("donors")}
           >
             <FaUser className="w-4 h-4 inline mr-2" />
             Blood Donors ({donors.length})
           </button>
           <button
             className={`px-6 py-3 font-medium text-sm ${
-              tab === 'status' 
-                ? 'border-b-2 border-red-500 text-red-600 bg-red-50' 
-                : 'text-gray-500 hover:text-gray-700'
+              tab === "status"
+                ? "border-b-2 border-red-500 text-red-600 bg-red-50"
+                : "text-gray-500 hover:text-gray-700"
             }`}
-            onClick={() => setTab('status')}
+            onClick={() => setTab("status")}
           >
             <FaTint className="w-4 h-4 inline mr-2" />
             Blood Bank Status
@@ -186,41 +288,60 @@ export default function PatientBloodBank() {
         </div>
 
         {/* Donors Tab */}
-        {tab === 'donors' && (
-          <div className="p-6">
+        {tab === "donors" && (
+          <div className="md:p-6 p-0 pt-2">
             {/* Filter */}
             <div className="flex items-center justify-between mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Filter by Blood Group</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Filter by Blood Group
+                </label>
                 <select
                   value={filterBloodGroup}
                   onChange={(e) => setFilterBloodGroup(e.target.value)}
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
-                  {bloodGroups.map(group => (
-                    <option key={group} value={group}>{group}</option>
+                  {bloodGroups.map((group) => (
+                    <option key={group} value={group}>
+                      {group}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
 
             {/* Donors Table */}
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto hidden md:block">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Donor</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age/Sex</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blood Group</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Donation</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Donations</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Donor
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Age/Sex
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Blood Group
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Last Donation
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Donations
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredDonors.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                      <td
+                        colSpan={6}
+                        className="px-6 py-8 text-center text-gray-500"
+                      >
                         <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
                         <p>No donors found matching your criteria.</p>
                       </td>
@@ -234,17 +355,27 @@ export default function PatientBloodBank() {
                               <FaUser className="w-5 h-5 text-red-500" />
                             </div>
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{donor.name}</div>
-                              <div className="text-sm text-gray-500">{donor.phone}</div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {donor.name}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {donor.phone}
+                              </div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <div>{donor.age} years</div>
-                          <div className="text-xs text-gray-400">{donor.sex}</div>
+                          <div className="text-xs text-gray-400">
+                            {donor.sex}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-3 py-1 text-sm font-medium rounded-full ${getBloodGroupColor(donor.bloodGroup)}`}>
+                          <span
+                            className={`px-3 py-1 text-sm font-medium rounded-full ${getBloodGroupColor(
+                              donor.bloodGroup
+                            )}`}
+                          >
                             {donor.bloodGroup}
                           </span>
                         </td>
@@ -260,7 +391,9 @@ export default function PatientBloodBank() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <FaHeart className="w-3 h-3 mr-2 text-red-500" />
-                            <span className="text-sm font-medium">{donor.donationCount} times</span>
+                            <span className="text-sm font-medium">
+                              {donor.donationCount} times
+                            </span>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -281,44 +414,68 @@ export default function PatientBloodBank() {
         )}
 
         {/* Blood Bank Status Tab */}
-        {tab === 'status' && (
-          <div className="p-6">
+        {tab === "status" && (
+          <div className="p-6 hidden md:block">
             {/* Detailed Status Table */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-white  rounded-lg border border-gray-200 overflow-hidden">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blood Group</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Available Units</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Blood Group
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Available Units
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Last Updated
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {status.map((item, idx) => (
                     <tr key={idx} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-3 py-1 text-sm font-medium rounded-full ${getBloodGroupColor(item.bloodGroup)}`}>
+                        <span
+                          className={`px-3 py-1 text-sm font-medium rounded-full ${getBloodGroupColor(
+                            item.bloodGroup
+                          )}`}
+                        >
                           {item.bloodGroup}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <FaTint className="w-4 h-4 mr-2 text-red-500" />
-                          <span className="text-sm font-medium">{item.available} units</span>
+                          <span className="text-sm font-medium">
+                            {item.available} units
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          item.critical ? 'bg-red-100 text-red-800' :
-                          item.available > 20 ? 'bg-green-100 text-green-800' :
-                          item.available > 10 ? 'bg-yellow-100 text-yellow-800' : 'bg-orange-100 text-orange-800'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            item.critical
+                              ? "bg-red-100 text-red-800"
+                              : item.available > 20
+                              ? "bg-green-100 text-green-800"
+                              : item.available > 10
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-orange-100 text-orange-800"
+                          }`}
+                        >
                           {/* {getStatusIcon(item.available, item.critical)} */}
                           <span className="ml-1">
-                            {item.critical ? "Critical" : 
-                             item.available > 20 ? "Well Stocked" :
-                             item.available > 10 ? "Adequate" : "Low Stock"}
+                            {item.critical
+                              ? "Critical"
+                              : item.available > 20
+                              ? "Well Stocked"
+                              : item.available > 10
+                              ? "Adequate"
+                              : "Low Stock"}
                           </span>
                         </span>
                       </td>
@@ -336,7 +493,11 @@ export default function PatientBloodBank() {
 
       {/* Donor Details Modal */}
       {showModal && selectedDonor && (
-        <DonorDetailModal selectedDonor={selectedDonor} handleCloseModal={handleCloseModal} getBloodGroupColor={getBloodGroupColor} />
+        <DonorDetailModal
+          selectedDonor={selectedDonor}
+          handleCloseModal={handleCloseModal}
+          getBloodGroupColor={getBloodGroupColor}
+        />
       )}
     </div>
   );

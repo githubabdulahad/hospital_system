@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState , useEffect, useCallback} from 'react';
 
 const navItems = [
   { label: 'Dashboard', to: '/accountant/dashboard', icon: (
@@ -65,7 +65,7 @@ const SidebarDropdown = ({ label, icon, children, to, open, setOpen }) => {
   );
 };
 
-const AccountantSidebar = () => {
+const AccountantSidebar = ({ isOpen, onClose }) => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -73,14 +73,60 @@ const AccountantSidebar = () => {
     return pathname === to || pathname.startsWith(to + '/');
   };
 
+    // Memoize onClose to prevent unnecessary re-renders
+  const handleClose = useCallback(() => {
+    if (onClose) {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (isOpen && !event.target.closest('aside') && !event.target.closest('button[aria-label="Toggle menu"]')) {
+        handleClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [isOpen, handleClose]);
+
+  // Close sidebar when route changes on mobile (only on mobile)
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (isOpen && isMobile) {
+      handleClose();
+    }
+  }, [pathname, isOpen, handleClose]);
+
+
   return (
-    <aside 
-      className="w-64 bg-[#0B2443] text-white flex flex-col shadow-lg sticky top-0 overflow-y-auto" 
-      style={{ 
-        fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'", 
-        height: 'calc(100vh - 120px)' 
-      }}
-    >
+    <>
+    {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={handleClose}
+        />
+      )}
+      <aside 
+        className={`
+          fixed md:sticky top-0 left-0 z-50 md:z-auto
+          md:w-64 w-48 bg-[#0B2443] text-white flex flex-col shadow-lg overflow-y-auto
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}
+        style={{ 
+          fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'", 
+          height: 'calc(110vh - 155px)',
+          top: '84px'
+        }}
+      >
       <div className="flex flex-col items-center py-8 border-b border-gray-700 px-3">
         <div className="w-[110px] h-[110px] rounded-full bg-white flex items-center justify-center shadow mb-4 border-4 border-[#C0E6DA]">
           {/* Accountant profile icon SVG */}
@@ -137,6 +183,7 @@ const AccountantSidebar = () => {
         </SidebarDropdown>
       </nav>
     </aside>
+    </>
   );
 };
 

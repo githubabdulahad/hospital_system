@@ -92,8 +92,9 @@ const AccountantProfile = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50" style={{ fontFamily: "'Gill Sans MT', 'Gill Sans', 'GillSans', 'Arial', 'sans-serif'" }}>
       {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4  top-0 z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 top-0 z-40">
+        {/* Desktop */}
+        <div className="max-w-7xl mx-auto hidden md:flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center">
               <FaUser className="w-7 h-7 text-[#0B2443] mr-3" />
@@ -120,15 +121,39 @@ const AccountantProfile = () => {
             </Link>
           </div>
         </div>
+        {/* Mobile */}
+        <div className="max-w-7xl mx-auto md:hidden flex flex-col items-center">
+          <div className="flex items-center mb-2">
+            <FaUser className="w-7 h-7 text-[#0B2443] mr-3" />
+            <h1 className="text-2xl font-bold text-gray-800">Accountant Profile</h1>
+          </div>
+          <p className="text-sm text-gray-600 mb-2 text-center">View and manage accountant information</p>
+          <div className="flex flex-col w-auto gap-2 -ml-20">
+            <button 
+              onClick={handleEdit}
+              className="w-full px-5 py-2 border-none bg-[#c0e6da] text-[#0B2443] hover:bg-[#96c5b6] hover:text-[#0B2443] rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+            >
+              <FaEdit className="w-4 h-4" />
+              Edit Profile
+            </button>
+            <Link 
+              href='/accountant/manage-invoice' 
+              className="w-full px-4 py-2 bg-[#0B2443] text-white hover:bg-[#352c65] rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+            >
+              <FaFileInvoiceDollar className="w-4 h-4" />
+              Manage Invoices
+            </Link>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
         {/* Profile Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden mb-6">
           <div className="p-8">
-            <div className="flex items-start space-x-8">
+            <div className="flex flex-col md:flex-row md:items-start md:space-x-8 space-y-8 md:space-y-0">
               {/* Profile Image */}
-              <div className="relative">
+              <div className="relative flex justify-center md:block">
                 <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover rounded-full" />
@@ -138,22 +163,22 @@ const AccountantProfile = () => {
                     profile.name.split(' ').map(n => n[0]).join('')
                   )}
                 </div>
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
+                <div className="absolute hidden  bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white md:flex items-center justify-center">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
               </div>
 
               {/* Profile Info */}
               <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h2 className="text-3xl font-bold text-gray-800">{profile.name}</h2>
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                <div className="flex flex-col md:flex-row md:items-center md:space-x-3 mb-2 items-center">
+                  <h2 className="text-3xl font-bold text-gray-800 text-center md:text-left">{profile.name}</h2>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mt-2 md:mt-0">
                     <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
                     {profile.status}
                   </span>
                 </div>
-                <p className="text-xl text-gray-600 mb-1">{profile.designation}</p>
-                <p className="text-lg text-[#0B2443] font-medium mb-4">{profile.department}</p>
+                <p className="text-xl text-gray-600 mb-1 text-center md:text-left">{profile.designation}</p>
+                <p className="text-lg text-[#0B2443] font-medium mb-4 text-center md:text-left">{profile.department}</p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div className="flex items-center space-x-2 bg-gray-50 rounded-lg p-3">
@@ -181,8 +206,8 @@ const AccountantProfile = () => {
               </div>
 
               {/* Contact Info */}
-              <div className="bg-gray-50 rounded-xl p-6 min-w-[250px]">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h3>
+              <div className="bg-gray-50 rounded-xl p-6 min-w-[250px] w-full md:w-auto mt-8 md:mt-0">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center md:text-left">Contact Information</h3>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <FaPhone className="w-4 h-4 text-green-500" />
@@ -212,14 +237,14 @@ const AccountantProfile = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {statData.map((stat, index) => (
                     <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
                   ))}
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white hidden md:block rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8 px-6">
               {[

@@ -7,6 +7,9 @@ import StatCard from "../../../components/compafterlogin/Common/StatCard";
 import ShowPatientDetail from "../../../components/compafterlogin/Doctor/ShowPatientDetail";
 import EditPatientModal from "../../../components/compafterlogin/Doctor/Edit&AddPatientModal";
 import DeletePatientModal from "../../../components/compafterlogin/Doctor/DeletePatientModal";
+import GenericCard from "../../../components/compafterlogin/Common/GenericCard";
+import { FaPenClip } from "react-icons/fa6";
+import { FaEdit, FaEnvelope, FaEye, FaPhone, FaTint, FaTrash, FaUser } from "react-icons/fa";
 
 const Patients = () => {
   const [patients, setPatients] = useState([
@@ -353,7 +356,7 @@ const Patients = () => {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statData.map((stat, index) => (
           <StatCard icon={stat.icon} stat={stat.stat} label={stat.label} key={index} />
         ))}
@@ -403,7 +406,8 @@ const Patients = () => {
         />
       </div>
 
-      <CommonTable
+        <div className="hidden md:block">
+          <CommonTable
         columns={[
           { label: "Patient ID", key: "patientId" },
           { label: "Name", key: "name" },
@@ -464,6 +468,65 @@ const Patients = () => {
         ]}
         data={filteredPatients}
       />
+        </div>
+
+        <div className="block md:hidden">
+                      <h1 className="text-2xl font-bold text-center text-[#0b2443] mb-2">Patients </h1>
+                      <div className="grid  grid-cols-2 gap-4">
+                                      {filteredPatients.length === 0 ? (
+                                        <div className="text-center text-gray-500 py-8">
+                                          <FaUser className="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                                          <p>No record found.</p>
+                                        </div>
+                                      ) : (
+                                        filteredPatients.map((patient) => (
+                                          <GenericCard
+                                            key={patient.id}
+                                            data={patient}
+                                            hospitalFields={[
+                                           {
+                                             key: "name",
+                                             icon: <FaUser />,
+                                           },
+                                           {
+                                             key: "patientId",
+                                             icon: <FaPenClip />,
+                                           },
+                                            {
+                                              key: 'bloodGroup',
+                                              icon: <FaTint />,
+                                            },
+                                         ]}
+                                         personalFields={[
+                                           { key: "email", icon: <FaEnvelope /> },
+                                           { key: "phone", icon: <FaPhone /> },
+                                        ]}
+                                            actions={[
+                                              {
+                                                label: "View",
+                                                icon: <FaEye className="w-3 h-3" />,
+                                                color: "text-[#0B2443] ",
+                                                onClick: handleViewPatient,
+                                              },
+                                              {
+                                                label: "Edit",
+                                                icon: <FaEdit className="w-3 h-3" />,
+                                                color: "text-gray-800",
+                                                onClick: handleEditPatient,
+                                              },
+                                              {
+                                                label: "Delete",
+                                                icon: <FaTrash className="w-3 h-3" />,
+                                                color: "text-red-600",
+                                                onClick: handleDeletePatient,
+                                              }
+                                            ]}
+                                          />
+                                        ))
+                                      )}
+                                    </div>
+                    </div>
+      
 
       {/* Patient Detail Modal */}
       {showPatientModal && (
