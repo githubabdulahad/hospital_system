@@ -207,9 +207,9 @@ export default function Maincomp() {
             </button>
           </form>
           <div className="mb-0 md:mb-8 text-center text-gray-700 text-xs md:text-sm">
-            Don't have an account?{" "}
+            Don't have an account?{' '}
             <Link
-              href="/"
+              href="/signup"
               className="text-blue-900 font-semibold hover:underline"
             >
               SIGN UP
